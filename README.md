@@ -18,4 +18,4 @@ The repository is organized with two branches and the latest will be the final a
 # What you will lose
 - The web interface to manage the hardware, but one could install something but may have to build it by him/herself.
 
-# Lets start!
+# Let's start!
