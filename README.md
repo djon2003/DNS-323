@@ -30,3 +30,14 @@ Good! My project is defined, my goal is written down and measurable. Lets rock!
 - Activate SMBv1.0 on Windows to be able to access a share volume. Turn on SMB1.0: https://tompai.pro/computers/d-link-dns-323-requires-smb1-protocol-cant-connect-from-windows-10/
 - Find the device IP: You can use NMap to do so.
 - Ensure access to the share volume
+- 
+## Steps
+- Follow the instructions on https://nas-tweaks.net/371/hdd-installation-of-the-fun_plug-0-7-on-nas-devices/#Steps_for_installing_fun_plug to install fun_plug.
+    - Download http://inreto.de/dns323/fun-plug/0.7/oabi/fun_plug.tgz
+    - Download https://inreto.de/dns323/fun-plug/0.7/oabi/fun_plug
+    - Move them on the root directory of the share volume named Volume_1
+    - Reboot the NAS
+    - **There now should be a folder ffp, if not, reboot again**
+- Connect using Telnet
+
+> Oh yes! Success! I am not in a Linux environment. I can do anything!
