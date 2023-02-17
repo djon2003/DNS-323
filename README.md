@@ -19,3 +19,12 @@ The repository is organized with two branches and the latest will be the final a
 - The web interface to manage the hardware, but one could install something but may have to build it by him/herself.
 
 # Lets start!
+
+OK! What will I do. First of all, for the project to be feasible, I have to be able to somewhat give instructions to the OS. Looking through Internet, I found fun_plug. I would be able to connect through Telnet to execute commands. So here, my goal that I set is to be able to compile a newer version of Samba on the NAS, but not too much so it could be easier to integrate with less collateral changes to apply.
+
+Good! My project is defined, my goal is written down and measurable. Lets rock!
+
+## Requirements
+- Activate SMBv1.0 on Windows to be able to access a share volume. Turn on SMB1.0: https://tompai.pro/computers/d-link-dns-323-requires-smb1-protocol-cant-connect-from-windows-10/
+- Find the device IP: You can use NMap to do so.
+- Ensure access to the share volume
