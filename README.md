@@ -40,4 +40,4 @@ Good! My project is defined, my goal is written down and measurable. Lets rock!
     - **There now should be a folder ffp, if not, reboot again**
 - Connect using Telnet
 
-> Oh yes! Success! I am not in a Linux environment. I can do anything!
+> Oh yes! Success! I am now in a Linux environment. I can do anything!
