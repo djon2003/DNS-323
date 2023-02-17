@@ -24,6 +24,8 @@ OK! What will I do. First of all, for the project to be feasible, I have to be a
 
 Good! My project is defined, my goal is written down and measurable. Lets rock!
 
+> Now I was really confident I could do it and I would do it! Only success is on the path!
+
 ## Requirements
 - Activate SMBv1.0 on Windows to be able to access a share volume. Turn on SMB1.0: https://tompai.pro/computers/d-link-dns-323-requires-smb1-protocol-cant-connect-from-windows-10/
 - Find the device IP: You can use NMap to do so.
