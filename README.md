@@ -45,7 +45,7 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 - Download all packages listed in "DNS-323/files-needed/fun_plug_0.7/packages/"
 - Install them all using `fun-plug -i PACKAGE_FILE_NAME`
 
-> Now fun_plug packages are installed. In fact, I did not installed all of them once. I figured them out one by one. A requirement to compile Samba 4.2.0 is Python. So let's compile it.
+> Now fun_plug packages are installed. In fact, I did not installed all of them at once. I figured them out one by one. The only requirement to compile Samba 4.2.0 is Python. So let's compile it.
 
 - Download https://www.python.org/ftp/python/2.6.9/Python-2.6.9.tgz to Volume_1
 - `tar -xvf Python-2.6.9.tgz`
@@ -84,7 +84,7 @@ What if I use `./configure --prefix=/ffp` instead? Let's try with an higher Pyth
 - `cd Python-2.5.0 && ./configure --prefix=/ffp`
 - `make`
 
-> Got an error of missing space
+> Got an error of "not enough space"
 
 - `mkdir ../tmp.gcc`
 - `TMPDIR=/mnt/HD_a2/tmp.gcc/ && make`
