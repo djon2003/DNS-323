@@ -41,3 +41,14 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 - Connect using Telnet
 
 > Oh yes! Success! I am now in a Linux environment. I can do anything!
+
+- Download all packages listed in "DNS-323/files-needed/fun_plug_0.7/packages/"
+- Install them all using `fun-plug -i PACKAGE_FILE_NAME`
+
+> Now fun_plug packages are installed. In fact, I did not installed all of them once. I figured them out one by one. A requirement to compile Samba 4.2.0 is Python. So let's compile it.
+http://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-armv5l.tar.bz2
+- Download https://www.python.org/ftp/python/2.6.9/Python-2.6.9rc1.tgz
+- `tar -xvf Python-2.6.9rc1.tgz`
+- `cd Python-2.6.9rc1 && make`
+
+> Here, I got errors over errors. Ohhhh! Will I be able to fix all those compilation errors.
