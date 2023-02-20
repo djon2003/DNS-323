@@ -77,6 +77,25 @@ I will list all corrections I applied. From my notes, as I did a lot of attempts
 
 > Still no luck! Will I finally compile Python or not?
 
+What if I use `./configure --prefix=/ffp` instead? Let's try with an higher Python version.
+
+- Download http://python.org/ftp/python/2.5.0/Python-2.5.0.tgz to Volume_1
+- `tar -xvf Python-2.5.0.tgz`
+- `cd Python-2.5.0 && ./configure --prefix=/ffp`
+- `make`
+
+> Got an error of missing space
+
+- `mkdir ../tmp.gcc`
+- `TMPDIR=/mnt/HD_a2/tmp.gcc/ && make`
+
+> MAN!!! It compiled! Eureka!
+
+- `make install`
+- `python`
+    - print("Hello my new Python installation")
+
+> More than being compiled, I can execute it and it runs and executes commands.
 
 
 
