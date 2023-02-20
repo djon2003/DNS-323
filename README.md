@@ -46,9 +46,38 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 - Install them all using `fun-plug -i PACKAGE_FILE_NAME`
 
 > Now fun_plug packages are installed. In fact, I did not installed all of them once. I figured them out one by one. A requirement to compile Samba 4.2.0 is Python. So let's compile it.
-http://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-armv5l.tar.bz2
-- Download https://www.python.org/ftp/python/2.6.9/Python-2.6.9rc1.tgz
-- `tar -xvf Python-2.6.9rc1.tgz`
-- `cd Python-2.6.9rc1 && make`
+
+- Download https://www.python.org/ftp/python/2.6.9/Python-2.6.9.tgz to Volume_1
+- `tar -xvf Python-2.6.9.tgz`
+- `cd Python-2.6.9 && ./configure`
 
 > Here, I got errors over errors. Ohhhh! Will I be able to fix all those compilation errors.
+
+I will list all corrections I applied. From my notes, as I did a lot of attempts, it shall be those, but maybe some aren't necessary.
+
+- Download http://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-armv5l.tar.bz2 to Volume_1
+- `tar -xvf cross-compiler-armv5l.tar.bz2`
+- `mkdir /ffp/include/linux`
+- `cp cross-compiler-armv5l/include/linux/limits.h /ffp/include/linux
+
+> Still not :( I will try using a lower version of Python.
+
+- Download http://python.org/ftp/python/2.4.2/Python-2.4.2.tgz 
+- `cd Python-2.4.2 && ./configure`
+
+> Other errors poping up.
+
+- `mkdir /ffp/include/asm`
+- Download http://uclibc.org/downloads/binaries/0.9.30.1/mini-native-armv5l.tar.bz2 to Volume_1
+- `tar -xvf mini-native-armv5l.tar.bz2`
+- `cp mini-native-armv5l/usr/include/linux/ /ffp/include/`
+- `cp mini-native-armv5l/usr/include/asm/ /ffp/include/`
+- `cp mini-native-armv5l/usr/include/asm-generic/ /ffp/include/`
+- Disable line 243 of `/ffp/include/unistd.h` to fix double declaration issue
+
+> Still no luck! Will I finally compile Python or not?
+
+
+
+
+
