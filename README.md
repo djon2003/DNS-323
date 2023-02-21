@@ -32,6 +32,7 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 - Ensure access to the share volume
 
 ## Steps
+### Fun_plug / Telnet
 - Follow the instructions on https://nas-tweaks.net/371/hdd-installation-of-the-fun_plug-0-7-on-nas-devices/#Steps_for_installing_fun_plug to install fun_plug.
     - Download http://inreto.de/dns323/fun-plug/0.7/oabi/fun_plug.tgz
     - Download https://inreto.de/dns323/fun-plug/0.7/oabi/fun_plug
@@ -47,7 +48,8 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 
 > Now fun_plug packages are installed. In fact, I did not installed all of them at once. I figured them out one by one. The only requirement to compile Samba 4.2.0 is Python. So let's compile it.
 
-- Download https://www.python.org/ftp/python/2.6.9/Python-2.6.9.tgz to Volume_1
+### Python
+- Download https://www.python.org/ftp/python/2.6.9/Python-2.6.9.tgz on Volume_1
 - `tar -xvf Python-2.6.9.tgz`
 - `cd Python-2.6.9 && ./configure`
 
@@ -79,7 +81,7 @@ I will list all corrections I applied. From my notes, as I did a lot of attempts
 
 What if I use `./configure --prefix=/ffp` instead? Let's try with an higher Python version.
 
-- Download http://python.org/ftp/python/2.5.0/Python-2.5.0.tgz to Volume_1
+- Download http://python.org/ftp/python/2.5.0/Python-2.5.0.tgz on Volume_1
 - `tar -xvf Python-2.5.0.tgz`
 - `cd Python-2.5.0 && ./configure --prefix=/ffp`
 - `make`
@@ -96,6 +98,8 @@ What if I use `./configure --prefix=/ffp` instead? Let's try with an higher Pyth
     - print("Hello my new Python installation")
 
 > More than being compiled, I can execute it and it runs and executes commands.
+
+> Now, the final goal: Samba!
 
 
 
