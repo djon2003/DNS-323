@@ -45,7 +45,7 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 
 > Oh yes! Success! I am now in a Linux environment. I can do anything!
 
-- cd /mnt/HD_a2/
+- `cd /mnt/HD_a2/`
 - Download all packages listed in "DNS-323/files-needed/fun_plug_0.7/packages/"
 - Install them all using `fun-plug -i PACKAGE_FILE_NAME`
 
@@ -56,7 +56,7 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 > OK! This time, I'll try again with Python 2.6, but with all funpkg I needed all along in previous attempt.
 
 ### Python
-- cd /mnt/HD_a2/
+- `cd /mnt/HD_a2/`
 - Download https://www.python.org/ftp/python/2.6.9/Python-2.6.9.tgz on Volume_1
 - `tar -xvf Python-2.6.9.tgz`
 - `cd Python-2.6.9 && ./configure --prefix=/ffp`
