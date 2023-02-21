@@ -2,7 +2,7 @@
 Nowdays, the D-Link DNS-323 NAS is not supported anymore and the SMB protocol supports only the version 1. This is how I started the project: trying, at least, to obtain SMBv2.0. The saga is about failure and success: this method that the first part is not enough glorified.
 
 # How to read
-The repository is organized with branches and the latest will be merged into master version. So, if you only want the instructions, just read next, otherwise, navigate through the branches and commmits.
+The repository is organized with two branches and the latest will be the final and master version. So, if you only want the instructions, just read next, otherwise, navigate through the branches and commmits.
 
 # What you will obtain
 - Debian Jessie as operating system
@@ -31,6 +31,8 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 - Find the device IP: You can use NMap to do so.
 - Ensure access to the share volume
 
+> Don't despair big boy! This trial will be the one!
+
 ## Steps
 ### Fun_plug / Telnet
 - Follow the instructions on https://nas-tweaks.net/371/hdd-installation-of-the-fun_plug-0-7-on-nas-devices/#Steps_for_installing_fun_plug to install fun_plug.
@@ -43,7 +45,7 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 
 > Oh yes! Success! I am now in a Linux environment. I can do anything!
 
-- `cd /mnt/HD_a2/`
+- cd /mnt/HD_a2/
 - Download all packages listed in "DNS-323/files-needed/fun_plug_0.7/packages/"
 - Install them all using `fun-plug -i PACKAGE_FILE_NAME`
 
@@ -51,100 +53,28 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 
 > The only requirement to compile Samba 4.2.0 is Python. So let's compile it.
 
+> OK! This time, I'll try again with Python 2.6, but with all funpkg I needed all along in previous attempt.
+
 ### Python
-- `cd /mnt/HD_a2/`
+- cd /mnt/HD_a2/
 - Download https://www.python.org/ftp/python/2.6.9/Python-2.6.9.tgz on Volume_1
 - `tar -xvf Python-2.6.9.tgz`
-- `cd Python-2.6.9 && ./configure`
-
-> Here, I got errors over errors. Ohhhh! Will I be able to fix all those compilation errors.
-
-I will list all corrections I applied. From my notes, as I did a lot of attempts, it shall be those, but maybe some aren't necessary or not in proper order.
-
-- `cd /mnt/HD_a2/`
-- Download http://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-armv5l.tar.bz2 on Volume_1
-- `tar -xvf cross-compiler-armv5l.tar.bz2`
-- `mkdir /ffp/include/linux`
-- `cp cross-compiler-armv5l/include/linux/limits.h /ffp/include/linux`
-- `cd Python-2.6.9 && ./configure`
-
-> Still not :( I will try using a lower version of Python.
-
-- `cd /mnt/HD_a2/`
-- Download http://python.org/ftp/python/2.4.2/Python-2.4.2.tgz on Volume_1
-- `tar -xvf Python-2.4.2.tgz`
-- `cd Python-2.4.2 && ./configure`
-
-> Other errors poping up.
-
-- `mkdir /ffp/include/asm`
-- `cd /mnt/HD_a2/`
-- Download http://uclibc.org/downloads/binaries/0.9.30.1/mini-native-armv5l.tar.bz2 on Volume_1
-- `tar -xvf mini-native-armv5l.tar.bz2`
-- `cp mini-native-armv5l/usr/include/linux/ /ffp/include/`
-- `cp mini-native-armv5l/usr/include/asm/ /ffp/include/`
-- `cp mini-native-armv5l/usr/include/asm-generic/ /ffp/include/`
-- Disable line 243 of `/ffp/include/unistd.h` to fix double declaration issue
-- `cd Python-2.4.2 && ./configure`
-
-> Still no luck! Will I finally compile Python or not?
-
-What if I use `./configure --prefix=/ffp` instead? Let's try with an higher Python version.
-
-- `cd /mnt/HD_a2/`
-- Download http://python.org/ftp/python/2.5.0/Python-2.5.0.tgz on Volume_1
-- `tar -xvf Python-2.5.0.tgz`
-- `cd Python-2.5.0 && ./configure --prefix=/ffp`
-
-> I, I, I did the first!! Dancing!
-
+- `cd Python-2.6.9 && ./configure --prefix=/ffp`
 - `make`
 
-> Got an error of "not enough space"! GRRRR!
+```
+Failed to find the necessary bits to build these modules:
+_bsddb             _tkinter           bsddb185
+dbm                gdbm               nis
+sunaudiodev
+To find the necessary bits, look in setup.py in detect_modules() for the module's name.
 
-- `mkdir ../tmp.gcc`
-- `TMPDIR=/mnt/HD_a2/tmp.gcc/ && make`
 
-> MAN!!! It compiled! Eureka!
+Failed to build these modules:
+_ctypes            _curses_panel
+```
 
-- `make install`
-- `python`
-    - `print("Hello my new Python installation")`
+> Even with those fails, `python` can be executed
 
-> More than being compiled, I can execute it and it runs and executes commands.
+> One timer!
 
-> Now, the final goal: Samba!
-
-### Samba
-
-- `cd /mnt/HD_a2/`
-- Download https://download.samba.org/pub/samba/stable/samba-4.2.0.tar.gz on Volume_1
-- `tar -xvf samba-4.2.0.tar.gz`
-- `./configure --prefix=/ffp`
-
-> Some failure I was able to link them `./configure` options.
-
-- `./configure --prefix=/ffp --without-ad-dc --without-acl-support --without-ldap --without-ads`
-
-> Still... ah another one I will have difficulties compiling!
-
-- `cp /ffp/include/et/com_err.h /ffp/include/ ==> Maybe could have been fixed by installing funpkg "e2fsprogs-1.41.14-oarm-3.txz"`
-
-> Yeah!! At least, one of three steps done!
-
-- `make`
-
-> !"/$%?& ! Another compilation missing space! (I don't recall, if it really happened executing `make` or `configure`, but the different technique I used to patch it suggests me that I've done it for `configure`. Remember, it is an instructional story. The end instructions are stone, but the steps to get there are just a little less certain. At that time, I wasn't taking notes to write this.)
-
-- `mv /tmp /tmp.old`
-- `mkdir /mnt/HD_a2/tmp.gcc/`
-- `ln -s /mnt/HD_a2/tmp.gcc/ /tmp`
-- `make`
-
-> Here, all my attempts were vain! And I tried... so I let the project alone!
-
-> Finally, I thought that with everything I learned from this failure may help me do the right thing in the right order and... that may help. OK! Courage is back! Let's start over!
-
-- Use the reset button on the hardware to erase everything. Reconfigure the RAID-1 if needed and fulfill all the requirements.
-
-> Side note: In fact, the reset button had already been used multiple times. I am telling here that there is highs and lows (success & failure) all long. Each time the peeks (upward and downward) increase.
