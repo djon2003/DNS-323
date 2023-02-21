@@ -43,7 +43,7 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 
 > Oh yes! Success! I am now in a Linux environment. I can do anything!
 
-- cd /mnt/HD_a2/
+- `cd /mnt/HD_a2/`
 - Download all packages listed in "DNS-323/files-needed/fun_plug_0.7/packages/"
 - Install them all using `fun-plug -i PACKAGE_FILE_NAME`
 
@@ -52,7 +52,7 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 > The only requirement to compile Samba 4.2.0 is Python. So let's compile it.
 
 ### Python
-- cd /mnt/HD_a2/
+- `cd /mnt/HD_a2/`
 - Download https://www.python.org/ftp/python/2.6.9/Python-2.6.9.tgz on Volume_1
 - `tar -xvf Python-2.6.9.tgz`
 - `cd Python-2.6.9 && ./configure`
@@ -61,25 +61,25 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 
 I will list all corrections I applied. From my notes, as I did a lot of attempts, it shall be those, but maybe some aren't necessary or not in proper order.
 
-- cd /mnt/HD_a2/
-- Download http://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-armv5l.tar.bz2 to Volume_1
+- `cd /mnt/HD_a2/`
+- Download http://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-armv5l.tar.bz2 on Volume_1
 - `tar -xvf cross-compiler-armv5l.tar.bz2`
 - `mkdir /ffp/include/linux`
-- `cp cross-compiler-armv5l/include/linux/limits.h /ffp/include/linux
+- `cp cross-compiler-armv5l/include/linux/limits.h /ffp/include/linux`
 - `cd Python-2.6.9 && ./configure`
 
 > Still not :( I will try using a lower version of Python.
 
-- cd /mnt/HD_a2/
-- Download http://python.org/ftp/python/2.4.2/Python-2.4.2.tgz 
+- `cd /mnt/HD_a2/`
+- Download http://python.org/ftp/python/2.4.2/Python-2.4.2.tgz on Volume_1
 - `tar -xvf Python-2.4.2.tgz`
 - `cd Python-2.4.2 && ./configure`
 
 > Other errors poping up.
 
-- mkdir /ffp/include/asm`
-- cd /mnt/HD_a2/
-- Download http://uclibc.org/downloads/binaries/0.9.30.1/mini-native-armv5l.tar.bz2 to Volume_1
+- `mkdir /ffp/include/asm`
+- `cd /mnt/HD_a2/`
+- Download http://uclibc.org/downloads/binaries/0.9.30.1/mini-native-armv5l.tar.bz2 on Volume_1
 - `tar -xvf mini-native-armv5l.tar.bz2`
 - `cp mini-native-armv5l/usr/include/linux/ /ffp/include/`
 - `cp mini-native-armv5l/usr/include/asm/ /ffp/include/`
@@ -91,7 +91,7 @@ I will list all corrections I applied. From my notes, as I did a lot of attempts
 
 What if I use `./configure --prefix=/ffp` instead? Let's try with an higher Python version.
 
-- cd /mnt/HD_a2/
+- `cd /mnt/HD_a2/`
 - Download http://python.org/ftp/python/2.5.0/Python-2.5.0.tgz on Volume_1
 - `tar -xvf Python-2.5.0.tgz`
 - `cd Python-2.5.0 && ./configure --prefix=/ffp`
@@ -109,7 +109,7 @@ What if I use `./configure --prefix=/ffp` instead? Let's try with an higher Pyth
 
 - `make install`
 - `python`
-    - print("Hello my new Python installation")
+    - `print("Hello my new Python installation")`
 
 > More than being compiled, I can execute it and it runs and executes commands.
 
@@ -117,29 +117,29 @@ What if I use `./configure --prefix=/ffp` instead? Let's try with an higher Pyth
 
 ### Samba
 
-- cd /mnt/HD_a2/
-- Download https://download.samba.org/pub/samba/stable/samba-4.2.0.tar.gz to Volume_1
+- `cd /mnt/HD_a2/`
+- Download https://download.samba.org/pub/samba/stable/samba-4.2.0.tar.gz on Volume_1
 - `tar -xvf samba-4.2.0.tar.gz`
-- ./configure --prefix=/ffp
+- `./configure --prefix=/ffp`
 
 > Some failure I was able to link them `./configure` options.
 
-- ./configure --prefix=/ffp --without-ad-dc --without-acl-support --without-ldap --without-ads
+- `./configure --prefix=/ffp --without-ad-dc --without-acl-support --without-ldap --without-ads`
 
 > Still... ah another one I will have difficulties compiling!
 
-- cp /ffp/include/et/com_err.h /ffp/include/ ==> Maybe could have been fixed by installing funpkg "e2fsprogs-1.41.14-oarm-3.txz"
+- `cp /ffp/include/et/com_err.h /ffp/include/ ==> Maybe could have been fixed by installing funpkg "e2fsprogs-1.41.14-oarm-3.txz"`
 
 > Yeah!! At least, one of three steps done!
 
-- make
+- `make`
 
 > !"/$%?& ! Another compilation missing space! (I don't recall, if it really happened executing `make` or `configure`, but the different technique I used to patch it suggests me that I've done it for `configure`. Remember, it is an instructional story. The end instructions are stone, but the steps to get there are just a little less certain. At that time, I wasn't taking notes to write this.)
 
-- mv /tmp /tmp.old
-- mkdir /mnt/HD_a2/tmp.gcc/
-- ln -s /mnt/HD_a2/tmp.gcc/ /tmp
-- make
+- `mv /tmp /tmp.old`
+- `mkdir /mnt/HD_a2/tmp.gcc/`
+- `ln -s /mnt/HD_a2/tmp.gcc/ /tmp`
+- `make`
 
 > Here, all my attempts were vain! And I tried... so I let the project alone!
 
