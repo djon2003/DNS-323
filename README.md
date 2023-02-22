@@ -56,6 +56,7 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 > OK! This time, I'll try again with Python 2.6, but with all funpkg I needed all along in previous attempt.
 
 ### Python
+
 - `cd /mnt/HD_a2/`
 - Download https://www.python.org/ftp/python/2.6.9/Python-2.6.9.tgz on Volume_1
 - `tar -xvf Python-2.6.9.tgz`
@@ -78,3 +79,12 @@ _ctypes            _curses_panel
 
 > One timer!
 
+### Samba
+
+- `cd /mnt/HD_a2/`
+- Download https://download.samba.org/pub/samba/stable/samba-4.2.0.tar.gz on Volume_1
+- `tar -xvf samba-4.2.0.tar.gz`
+- `./configure --prefix=/ffp --without-ad-dc --without-acl-support --without-ldap --without-ads`
+- `make`
+
+> Ahhhh! No improvement! Let's try to fix Python missing bits.
