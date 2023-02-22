@@ -74,5 +74,109 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 
 > OK! For now I don't see any improvement. Let's continue with Samba. Who knows!
 
+### Samba
 
+- `cd /mnt/HD_a2/`
+- Download https://download.samba.org/pub/samba/stable/samba-4.2.0.tar.gz on Volume_1
+- `tar -xvf samba-4.2.0.tar.gz`
+- `./configure --prefix=/ffp --without-ad-dc --without-acl-support --without-ldap --without-ads`
+- `make`
 
+```
+[3193/3539] Linking default/lib/uid_wrapper/libuid-wrapper.so
+default/lib/uid_wrapper/uid_wrapper_1.o: In function `uwrap_new_id':
+uid_wrapper.c:(.text+0xb30): undefined reference to `__tls_get_addr'
+uid_wrapper.c:(.text+0xc6c): undefined reference to `__tls_get_addr'
+default/lib/uid_wrapper/uid_wrapper_1.o: In function `uwrap_init':
+uid_wrapper.c:(.text+0xe50): undefined reference to `__tls_get_addr'
+uid_wrapper.c:(.text+0xec4): undefined reference to `__tls_get_addr'
+default/lib/uid_wrapper/uid_wrapper_1.o: In function `uwrap_setresuid_thread':
+uid_wrapper.c:(.text+0x10cc): undefined reference to `__tls_get_addr'
+default/lib/uid_wrapper/uid_wrapper_1.o:uid_wrapper.c:(.text+0x14ac): more undefined references to `__tls_get_addr' follow
+```
+
+> Oh my, oh my, oh my! Will I get over all those errors. Impossible!
+
+- `./configure --prefix=/ffp --without-ad-dc --without-acl-support --without-ldap --without-ads --disable-gnutls`
+- `make`
+
+> Still no luck! Moreover, I discovered `gnustls` was disabled by default. So... was useless. Also, I learned that, here, the acronym TLS is not for Transport Layer Security, but Thread Local Storage. At least, it explains why this module was not part of the cause.
+
+- `make V=1`
+
+```
+[3193/3539] Linking default/lib/uid_wrapper/libuid-wrapper.so
+14:02:07 runner /ffp/bin/gcc default/lib/uid_wrapper/uid_wrapper_1.o -o /mnt/HD_a2/samba-4.2.0/bin/default/lib/uid_wrapper/libuid-wrapper.so -lpthread -Wl,-no-undefined -Wl,--export-dynamic -Wl,--as-needed -fstack-protector -shared -Wl,-rpath,/mnt/HD_a2/samba-4.2.0/bin/shared -Wl,-rpath,/mnt/HD_a2/samba-4.2.0/bin/shared/private -L/usr/local/lib -Wl,-Bdynamic -ldl
+default/lib/uid_wrapper/uid_wrapper_1.o: In function `uwrap_new_id':
+uid_wrapper.c:(.text+0xb30): undefined reference to `__tls_get_addr'
+uid_wrapper.c:(.text+0xc6c): undefined reference to `__tls_get_addr'
+default/lib/uid_wrapper/uid_wrapper_1.o: In function `uwrap_init':
+uid_wrapper.c:(.text+0xe50): undefined reference to `__tls_get_addr'
+uid_wrapper.c:(.text+0xec4): undefined reference to `__tls_get_addr'
+default/lib/uid_wrapper/uid_wrapper_1.o: In function `uwrap_setresuid_thread':
+uid_wrapper.c:(.text+0x10cc): undefined reference to `__tls_get_addr'
+default/lib/uid_wrapper/uid_wrapper_1.o:uid_wrapper.c:(.text+0x14ac): more undefined references to `__tls_get_addr' follow
+```
+
+> Ehm, ehm! Here, even if it seems to be same output, if you look carefully, you'll see one extra line. An important one!
+
+- Extract `ld-2.32.so` from http://ftp.us.debian.org/debian/pool/main/g/glibc/libc6_2.31-13+deb11u5_armel.deb on Volume_1
+- `/ffp/bin/gcc /mnt/HD_a2/samba-4.2.0/bin/default/lib/uid_wrapper/uid_wrapper_1.o -o /mnt/HD_a2/samba-4.2.0/bin/default/lib/uid_wrapper/libuid-wrapper.so -lpthread -Wl,-no-undefined -Wl,--export-dynamic -Wl,--as-needed -fstack-protector -shared -Wl,-rpath,/mnt/HD_a2/samba-4.2.0/bin/shared -Wl,-rpath,/mnt/HD_a2/samba-4.2.0/bin/shared/private -L/usr/local/lib -Wl,-Bdynamic -ldl /mnt/HD_a2/ld-2.31.so`
+
+> Oh yes! This fix shall work because... it compiled!
+
+- `make`
+
+> Patate! (French word that means failure in this context)
+
+- `cp /mnt/HD_a2/ld-2.31.so /ffp/lib/ld-2.31.so`
+- `ln -s /ffp/lib/ld-2.31.so /ffp/lib/ld-linux.so.3`
+- `make`
+
+> Name another vegetable that would mark failure... again! No high expectations, I'll just clean and retry.
+
+- Try clean + config + make
+
+> As expected, no change. Let's go drastically. When something goes wrong and you don't control a process, is there a way to circumvent the bug by intercepting something you know is called. Oh, giving my an idea!
+
+- Create a script `/mnt/HD_a2/gcc.sh` with the following content:
+```
+#!/bin/sh
+
+inputToTest1="default/lib/uid_wrapper/uid_wrapper_1.o -o /mnt/HD_a2/p/samba-4.2.0/bin/default/lib/uid_wrapper/libuid-wrapper.so -lpthread -Wl,-no-undefined -Wl,--export-dynamic -Wl,--as-needed -fstack-protector -shared -Wl,-rpath,/mnt/HD_a2/p/samba-4.2.0/bin/shared -Wl,-rpath,/mnt/HD_a2/p/samba-4.2.0/bin/shared/private -L/usr/local/lib -Wl,-Bdynamic -ldl"
+inputToAdd1="/mnt/HD_a2/ld-2.31.so"
+input="$@"
+
+(
+	cd /mnt/HD_a2/p/samba-4.2.0/bin
+
+	if [ "$input" = "$inputToTest1" ]; then
+		gcc0 $@ $inputToAdd1
+	else
+		gcc0 $@
+	fi
+)
+```
+
+- `mv /ffp/bin/gcc /ffp/bin/gcc0`
+- `ln -s /mnt/HD_a2/gcc.sh /ffp/bin/gcc`
+- `make`
+
+> Oh my GOD!! It passed through the erronous compiling step! Waiting...
+
+```
+default/source3/smbd/notify_inotify_75.o: In function `inotify_setup':
+notify_inotify.c:(.text+0x984): undefined reference to `inotify_init'
+default/source3/smbd/notify_inotify_75.o: In function `watch_destructor':
+notify_inotify.c:(.text+0xe34): undefined reference to `inotify_rm_watch'
+default/source3/smbd/notify_inotify_75.o: In function `inotify_watch':
+notify_inotify.c:(.text+0xfd4): undefined reference to `inotify_add_watch'
+notify_inotify.c:(.text+0x1150): undefined reference to `inotify_rm_watch'
+notify_inotify.c:(.text+0x11ec): undefined reference to `inotify_rm_watch'
+```
+
+> Ahhhh, failed, again! And if I recall correctly, it was a step around 3200 on around 3400. Man, I was about to it.
+
+> More investigation on this issue didn't help me to overcome this problem. I opened [a question on StackOverFlow](https://stackoverflow.com/questions/75179314/is-inotify-init-contained-in-linux-kernel), but I couldn't continue with the suggestion. When I received those, I was already trying to install Debian and I couldn't go back (well, not easily).
+
+> My confidence to end my small project was now at its lowest.
