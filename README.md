@@ -60,31 +60,19 @@ Good! My project is defined, my goal is written down and measurable. Let's rock!
 - `cd /mnt/HD_a2/`
 - Download https://www.python.org/ftp/python/2.6.9/Python-2.6.9.tgz on Volume_1
 - `tar -xvf Python-2.6.9.tgz`
+- Download https://github.com/djon2003/DNS-323/blob/aebffb4d5951558f4ac0b8af336812918b40c1bd/files-needed/misc/sysv.S on Volume_1
+- cp /mnt/HD_a2/sysV.S /mnt/HD_a2/Python-2.6.9/Modules/_ctypes/libffi/src/arm/
 - `cd Python-2.6.9 && ./configure --prefix=/ffp`
 - `make`
 
-```
-Failed to find the necessary bits to build these modules:
-_bsddb             _tkinter           bsddb185
-dbm                gdbm               nis
-sunaudiodev
-To find the necessary bits, look in setup.py in detect_modules() for the module's name.
+> Now the `_ctypes` module didn't fail, but it did not fix the Samba current error. OH!! What can I do? I don't have other ideas.
 
+> Again, a little break is salvation. After looking in the Samba folder, I found `install_with_python.sh` where I discovered `configure` options that I may use.
 
-Failed to build these modules:
-_ctypes            _curses_panel
-```
-
-> Even with those fails, `python` can be executed
-
-> One timer!
-
-### Samba
-
-- `cd /mnt/HD_a2/`
-- Download https://download.samba.org/pub/samba/stable/samba-4.2.0.tar.gz on Volume_1
-- `tar -xvf samba-4.2.0.tar.gz`
-- `./configure --prefix=/ffp --without-ad-dc --without-acl-support --without-ldap --without-ads`
+- `./configure --prefix=/ffp --enable-shared --disable-ipv6`
 - `make`
 
-> Ahhhh! No improvement! Let's try to fix Python missing bits.
+> OK! For now I don't see any improvement. Let's continue with Samba. Who knows!
+
+
+
