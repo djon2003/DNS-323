@@ -133,3 +133,9 @@ The RAID is currently syncing. (This is a paraphrase)
 
 - If you wish to follow the progress, you can use a loop:
     - `while true; do printf "\033\143"; cat /proc/mdstat; echo "CTRL-C to quit"; sleep 10; done`.
+
+> Few hours later...
+
+>  I will start back.
+
+- `shutdown -r now`
