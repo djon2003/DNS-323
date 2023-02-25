@@ -24,6 +24,18 @@ Across all my searches to find answers during my previous *phase*, that I'm call
 
 In te first step, I simply had to use the reset button et voilà! Now if a catastrophic result happens (no access to the device), I would have to open the device, plug a wire and use serial commands to upload the original firmware. More complex, risky and it has a cost.
 
-OK! After looking at what I found, I choose Debian because I have someone that already did it. And he raised no issue. It should easy.
+OK! After looking at what I found, I choose Debian because I have someone that already did it. And he raised no issue. It should easy. No?
 
 > At that moment, even if the task was labeled easy, my confidence was not that high due to the failure of the previous phase.
+
+---
+
+> __Warning__ Read those notes before going any further
+
+⚠ Make sure to have a backup because this procedure will wipe all your data.\
+⚠ If somehow, you are stuck somewhere, you might find a solution, you might get help, BUT always remember that it could be possible you will have to use [the serial method](http://www.cyrius.com/debian/orion/d-link/dns-323/recovery/) to recover to the [original firmware](https://ftp.dlink.ca/ftp/PRODUCTS/DNS-323/DNS-323_FIRMWARE_1.10.ZIP).\
+⚠ The D-Link DNS-323 is no longer supported by Debian.
+
+---
+
+
