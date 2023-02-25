@@ -18,7 +18,7 @@ The repository is organized with branches and the latest will be merged into mas
 # What you will lose
 - The web interface to manage the hardware, but one could install something but may have to build it by him/herself.
 
-# Lets start!
+# Let's start!
 
 Across all my searches to find answers during my previous *phase*, that I'm calling "the compilation try", I saw another option that could be explored, but more risky. Hence, the first phase which had been a dead end. I could flash totally the hardware by another OS. When you are trying to accomplish something that you don't have experience in or you think it can be risky: ensure a fallback solution. 
 
