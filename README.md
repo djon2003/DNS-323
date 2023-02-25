@@ -42,6 +42,8 @@ OK! After looking at what I found, I choose Debian because I have someone that a
 
 > Let's put aside all my doubts and start this new phase.
 
+### Replacing original firmware
+
 - Download http://ftp.nl.debian.org/debian/dists/jessie/main/installer-armel/current/images/orion5x/network-console/d-link/dns-323/netboot.img on your computer.
 - Use the web interface of your DNS-323, in the firmware update section, and select the previous downloaded file.
 - Proceed with "updating" your firmware. ⚠ Don't turn off / reboot your DNS-323 until it ends.
