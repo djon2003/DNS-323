@@ -42,10 +42,48 @@ OK! After looking at what I found, I choose Debian because I have someone that a
 
 > Let's put aside all my doubts and start this new phase.
 
+> The three following subsections are inspired by http://www.cyrius.com/debian/orion/d-link/dns-323/install/.
+
 ### Replacing original firmware
 
-- Download http://ftp.nl.debian.org/debian/dists/jessie/main/installer-armel/current/images/orion5x/network-console/d-link/dns-323/netboot.img on your computer.
-- Use the web interface of your DNS-323, in the firmware update section, and select the previous downloaded file.
+- Download https://ftp.nl.debian.org/debian/dists/jessie/main/installer-armel/current/images/orion5x/network-console/d-link/dns-323/netboot.img on your computer.
+- Use the web interface of your DNS-323, in the firmware update section, and select the previously downloaded file.
 - Proceed with "updating" your firmware. ⚠ Don't turn off / reboot your DNS-323 until it ends.
 - Reboot the hardware.
 
+### Finding the new IP address and connecting
+
+- I firstly thought to ping my device in a loop using the previously assigned IP address
+
+- I secondly tried to verify my router DHCP table to retrieve the new address.
+
+> No luck. What I've done. My hardware is no more accessible and my only way to connect back to it would be the [the serial method](http://www.cyrius.com/debian/orion/d-link/dns-323/recovery/). Wait! I know! Based on the instructions, I have to connect via SSH. So, I could search the IP with a software that looks for opened ports in my local network.
+
+- Get your computer IP address:
+    - Via command line:
+        - Open `cmd`.
+        - `ipconfig`.
+        - Look for the network adapter currently in use (the IP address shall start with `192.168.`.
+    - Via GUI:
+        - Open Windows parameters / control panel.
+        - Reach the network settings.
+        - View the details of the currently in use adapter.
+- Open [NMap](https://nmap.org/) (You can use the software of your choice that would achieve the same goal).
+- In target box, you can enter `192.168.1.0/24` (the IP address of your computer except the last number is replaced with 0).
+- In command box, add `-p 22` after `nmap`
+- Click on the scan button.
+
+```
+Scanning 26 hosts [1 port/host]
+Discovered open port 22/tcp on 192.168.1.HIDDEN
+Discovered open port 22/tcp on 192.168.1.HIDDEN
+Discovered open port 22/tcp on 192.168.1.123
+Discovered open port 22/tcp on 192.168.1.HIDDEN
+```
+
+All the `HIDDEN` keywords were in fact numbers, but for privacy, I obfuscate them. I left them here so you can see that you could have multiple devices having the port 22 opened. So, from there, you can discard all known IP addresses. If there is more then one left, you can try to connect vis SSH and if it connects, you found it. Here the IP address `192.168.1.123` would be my device (this is not the real one).
+
+- Open [Putty](https://www.putty.org/) or WSL (Windows Subsystem for Linux) that I now prefer over Putty for SSH.
+- `ssh installer@192.168.1.123`.
+
+> Bingo! At least I can still access my device. I am safe.
