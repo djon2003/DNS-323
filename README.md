@@ -42,7 +42,7 @@ OK! After looking at what I found, I choose Debian because I have someone that a
 
 > Let's put aside all my doubts and start this new phase.
 
-> The three following subsections are inspired by http://www.cyrius.com/debian/orion/d-link/dns-323/install/.
+> The two following subsections are inspired by http://www.cyrius.com/debian/orion/d-link/dns-323/install/.
 
 ### Replacing original firmware
 
@@ -85,5 +85,10 @@ All the `HIDDEN` keywords were in fact numbers, but for privacy, I obfuscate the
 
 - Open [Putty](https://www.putty.org/) or WSL (Windows Subsystem for Linux) that I now prefer over Putty for SSH.
 - `ssh installer@192.168.1.123`.
+
+```
+Username: installer
+Password: install
+```
 
 > Bingo! At least I can still access my device. I am safe.
