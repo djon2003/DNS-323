@@ -92,3 +92,44 @@ Password: install
 ```
 
 > Bingo! At least I can still access my device. I am safe.
+
+### Installing the operating system
+
+- Choose `Expert mode`.
+
+> I most of time choose expert mode when it is available. So, old habits!
+
+- Select any listed server (I selected US).
+
+> Not working. Oh, that's really bad. I knew the installation had to download most of its stuff and... without a server connection working... that would be full stop.
+
+> I tried different servers, but none worked. Looking on Internet, I found an HTTP address that can be used as a server that I don't see in the list.
+
+- Select `Enter manually`.
+    - Type `archive.debian.org`.
+    - Accept default choices.
+
+> OK! Not so bad. Quick one.
+
+- In modules step, select: `fdisk, lvm-cfg, md+lvm, partman ext3, partman raid`.
+- In language step, select your region and add the desired keyboard layouts.
+- Follow steps up to partionning.
+- In partionning step, select `Manual` then `Configure RAID`: I recommend using RAID-1 as it is more safe for your data, but you are free, it shouldn't change the following steps.
+
+> Here, after some retries to learn the appropriate choices, it was crashing. Almost each step will struggle me to dead! A few metaphorical slaps in the face later.
+
+- Go to shell.
+- `cat /var/log/syslog`.
+
+> I could see in the log it couldn't access to device because it was busy. After scratching my head, I thought: Other RAIDs I configured needed a resynchronisation. Let's take a look. (This log will become my friend toward pursuing my goal.)
+
+- `cat /proc/mdstat`.
+
+```
+The RAID is currently syncing. (This is a paraphrase)
+```
+
+> Let's take a break. This process is multiple hours long.
+
+- If you wish to follow the progress, you can use a loop:
+    - `while true; do printf "\033\143"; cat /proc/mdstat; echo "CTRL-C to quit"; sleep 10; done`.
