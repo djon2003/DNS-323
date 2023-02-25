@@ -19,3 +19,11 @@ The repository is organized with two branches and the latest will be the final a
 - The web interface to manage the hardware, but one could install something but may have to build it by him/herself.
 
 # Lets start!
+
+Across all my searches to find answers during my previous *phase*, that I'm calling "the compilation try", I saw another option that could be explored, but more risky. Hence, the first phase which had been a dead end. I could flash totally the hardware by another OS. When you are trying to accomplish something that you don't have experience in or you think it can be risky: ensure a fallback solution. 
+
+In te first step, I simply had to use the reset button et voilà! Now if a catastrophic result happens (no access to the device), I would have to open the device, plug a wire and use serial commands to upload the original firmware. More complex, risky and it has a cost.
+
+OK! After looking at what I found, I choose Debian because I have someone that already did it. And he raised no issue. It should easy.
+
+> At that moment, even if the task was labeled easy, my confidence was not that high due to the failure of the previous phase.
