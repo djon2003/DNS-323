@@ -100,16 +100,16 @@ Password: install
 - Select **Enter manually**.
     - Type `archive.debian.org`.
     - Accept default choices.
-- In modules step, select: `fdisk, lvm-cfg, md+lvm, partman ext3, partman raid`.
-- In language step, select your region, BUT do NOT add keyboard layout/locales.
-- Follow steps up to partionning and enter it.
+- In *modules* step, select: `fdisk, lvm-cfg, md+lvm, partman ext3, partman raid`.
+- In *language* step, select your region, BUT do NOT add keyboard layout/locales.
+- Follow steps up to *partionning* and enter it.
 
 - SSH-b: `cat /proc/mdstat`.
 ```
 The RAID is active. (This is a paraphrase)
 ```
 
-- SSH-i: In partionning step, select **Guided LVM**.
+- SSH-i: In *partionning* step, select **Guided LVM**.
     - Give the names you want.
     - Select both disks.
 - Continue up to *install base system*.
