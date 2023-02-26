@@ -20,14 +20,6 @@ The repository is organized with branches and the latest will be merged into mas
 
 # Let's start!
 
-Across all my searches to find answers during my previous *phase*, that I'm calling "the compilation try", I saw another option that could be explored, but more risky. Hence, the first phase which had been a dead end. I could flash totally the hardware by another OS. When you are trying to accomplish something that you don't have experience in or you think it can be risky: ensure a fallback solution. 
-
-In te first step, I simply had to use the reset button et voilà! Now if a catastrophic result happens (no access to the device), I would have to open the device, plug a wire and use serial commands to upload the original firmware. More complex, risky and it has a cost.
-
-OK! After looking at what I found, I choose Debian because I have someone that already did it. And he raised no issue. It should easy. No?
-
-> At that moment, even if the task was labeled easy, my confidence was not that high due to the failure of the previous phase.
-
 ---
 
 > __Warning__ Read those notes before going any further
@@ -39,10 +31,6 @@ OK! After looking at what I found, I choose Debian because I have someone that a
 ---
 
 ## Debian
-
-> Let's put aside all my doubts and start this new phase.
-
-> The two following subsections are inspired by http://www.cyrius.com/debian/orion/d-link/dns-323/install/.
 
 ### Replacing original firmware
 
@@ -144,11 +132,9 @@ The RAID is active. (This is a paraphrase)
 
 - `ssh USERNAME@192.168.1.123`.
 
-> Boom! I am connected on the newly installed system! Now stop relaxing and do all the "add-ons" to have a really good hardware.
-
 ### Making a complete NAS
 
-In this section, I won't list all the problems I encountered, but they were minimal and not so worth mentioning. I am not 100% ensure if there is no useless `sudo`.
+> Note: I am not 100% ensure if there is no useless `sudo`.
 
 I decided to create a main folder where all my shares would be and to begin with I have:
 
@@ -157,7 +143,7 @@ I decided to create a main folder where all my shares would be and to begin with
 - `mkdir -p /share/scripts`
 - `chmod 777 /share/scripts`
 
-> Here I opened file permissions to those to full, but you can lower it or do what ever you want.
+> Here I opened file permissions for those to full, but you can lower it or do what ever you want.
 
 #### Sudo
 
@@ -181,7 +167,7 @@ I decided to create a main folder where all my shares would be and to begin with
 - `sudo pwmconfig`
 - `sudo /etc/init.d/fancontrol start`
 
-> Yes! The fan starts and it's controlled by the OS. Would be great if I would receive an email if the fan breaks. No? I wrote a script than does that including three modes:
+> `monitor-fans.sh` execution modes:
 > - No param: Tells you if the fan works.
 > - `--install`: Install monitoring each 5 minutes.
 > - `--uninstall`: Uninstall monitoring.
@@ -226,8 +212,6 @@ I decided to create a main folder where all my shares would be and to begin with
 
 #### Automount / Autoshare USB disks
 
-> At first, I installed latest Debian repo version, but there is bug that is fixed in the latest version. So, compiling time!
-
 ##### Compile & Install USBMount
 
 - `sudo apt-get install debhelper build-essential`
@@ -261,5 +245,3 @@ I decided to create a main folder where all my shares would be and to begin with
 	- `eject /dev/sdc` : To disconnect/umount USB drive
 - `sudo apt-get install udisks2` : Utilitary for USB. i.e. power-off. In my case, using `udisksctl power-off -b /dev/sdc`, made my USB HDD to be completely off. USB reconnection didn't work. I had to unplug the power cable and replug all to have the disk detected again. But, could be useful.
 
-> Now my satisfication peeked! I took a moment to contemplate my success and also to remember the labor needed to reach complete final success (in other words the failures). More than having a pratically new device, my knowledge grown and in some extend I learned new things even with the abandoned branches/tries/ideas.
-> Next step is to write what I have done so others could benefit from my experience/experiment.
