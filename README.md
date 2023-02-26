@@ -245,3 +245,47 @@ I decided to create a main folder where all my shares would be and to begin with
 	- `eject /dev/sdc` : To disconnect/umount USB drive
 - `sudo apt-get install udisks2` : Utilitary for USB. i.e. power-off. In my case, using `udisksctl power-off -b /dev/sdc`, made my USB HDD to be completely off. USB reconnection didn't work. I had to unplug the power cable and replug all to have the disk detected again. But, could be useful.
 
+# References
+
+## Debian
+
+- https://md.ekstrandom.net/resources/dns323/
+- https://wiki.debian.org/InstallingDebianOn/D-Link/DNS-323
+- http://www.cyrius.com/debian/orion/d-link/dns-323/
+- http://www.cyrius.com/debian/orion/d-link/dns-323/install/
+- https://www.debian.org/releases/jessie/
+- https://www.linuxquestions.org/questions/debian-26/how-do-i-create-an-initrd-img-file-597883/
+
+## Recovery
+
+- http://www.cyrius.com/debian/orion/d-link/dns-323/recovery/
+- http://dns323.kood.org/hardware%3Aserial
+- https://www.ionos.com/help/server-cloud-infrastructure/dedicated-server-for-servers-purchased-before-102818/rescue-and-recovery/software-raid-status-monitoring-linux/
+
+## RAID
+
+- https://tldp.org/HOWTO/Software-RAID-HOWTO-6.html
+- https://serverfault.com/questions/495392/remove-faulty-state-in-raid-1
+
+## Samba
+
+- https://tompai.pro/computers/d-link-dns-323-requires-smb1-protocol-cant-connect-from-windows-10/
+- https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html
+- https://www.samba.org/samba/download/
+- https://wiki.samba.org/index.php/Build_Samba_from_Source
+- https://www.samba.org/samba/history/
+- https://wiki.samba.org/index.php?title=Package_Dependencies_Required_to_Build_Samba&oldid=10463#Python
+- https://askubuntu.com/questions/917565/checking-smb-version
+- https://askubuntu.com/questions/79078/how-to-restart-samba-server
+- https://linuxconfig.org/how-to-set-up-a-samba-server-on-debian-10-buster
+
+## Add-ons
+
+- https://www.cyberciti.biz/faq/how-to-find-fan-speed-in-linux-for-cpu-and-gpu/
+- https://unix.stackexchange.com/questions/134797/how-to-automatically-mount-an-usb-device-on-plugin-time-on-an-already-running-sy
+- https://github.com/rbrito/usbmount
+
+## Others
+- https://nas-tweaks.net/371/hdd-installation-of-the-fun_plug-0-7-on-nas-devices/#Steps_for_installing_fun_plug
+- http://dns323.kood.org/howto:crosscompile#pre-compiled_binaries
+- https://devguide.python.org/getting-started/setup-building/
