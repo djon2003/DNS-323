@@ -148,7 +148,11 @@ The RAID is active. (This is a paraphrase)
 
 ### Making a complete NAS
 
-In this section, I won't list all the problems I encountered, but they were minimal and not so worth mentioning.
+In this section, I won't list all the problems I encountered, but they were minimal and not so worth mentioning. I am not 100% ensure if there is no useless `sudo`.
+
+I decided to create a main folder where all my shares would be and to begin with I have:
+- `mkdir -p /share/data`
+- `mkdir -p /share/scripts`
 
 #### Sudo
 
@@ -156,3 +160,15 @@ In this section, I won't list all the problems I encountered, but they were mini
 - `apt install sudo`
 - `usermod -aG sudo USERNAME`. Where USERNAME is the username you used during Debian installation section.
 - Restart SSH session.
+
+#### Fan
+- `sudo apt-get install lm-sensors`
+- `sudo sensors-detect`
+	- `YES` to all
+- `sudo /etc/init.d/kmod start`
+- `sudo apt-get install fancontrol`
+- `sudo pwmconfig`
+- `sudo /etc/init.d/fancontrol start`
+
+> Yes! The fan starts and his controled by the OS.
+
