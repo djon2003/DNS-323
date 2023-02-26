@@ -197,3 +197,29 @@ I decided to create a main folder where all my shares would be and to begin with
 
 - `sudo dpkg-reconfigure locales`
 
+#### RAID monitoring
+
+- `sudo nano /etc/mdadm/mdadm.conf` :
+	- Add `MAILADDR my-email@domain.com`. Where `my-email@domain.com` has to be replaced by your email.
+- To test email:
+	- Kill any ***mdadm*** process.
+	- `sudo mdadm --monitor --scan --test`
+- To test failure:
+	- Ensure the following command is running or run it: `mdadm --monitor --scan &`.
+	- `mdadm --manage --set-faulty /dev/md0 /dev/sdb1`
+	- Wait to receive the email.
+	- `mdadm /dev/md0 -r /dev/sdb1`
+	- `mdadm /dev/md0 -a /dev/sdb1`
+
+#### Samba
+
+- `sudo apt-get install samba`
+- `sudo bash -c 'echo "include = /etc/samba/smb.share.conf2" >> /etc/samba/smb.conf'`
+- `sudo wget -O /etc/samba/smb.share.conf https://raw.githubusercontent.com/djon2003/DNS-323/2.3-Add-ons/files/smb.share.conf`
+- `sudo systemctl restart smbd`
+
+#### USB port
+
+- Install exFAT support: `sudo apt install exfat-fuse exfat-utils`.
+- Install NTFS support: `sudo apt install ntfs-3g`
+- Printer: I will let this exercise to the reader. As this one I've been able to do  it, but that's true for my model. Maybe in the future.
