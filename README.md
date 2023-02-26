@@ -95,46 +95,106 @@ Password: install
 
 ### Installing the operating system
 
-- Choose `Expert mode`.
+> This time, I'll prepare myself like a pro.
 
-> I most of time choose expert mode when it is available. So, old habits!
+- Go to shell directly with this first SSH connection. I will name it SSH-behind-the-scene (shorten SSH-b).
 
-- Select any listed server (I selected US).
-
-> Not working. Oh, that's really bad. I knew the installation had to download most of its stuff and... without a server connection working... that would be full stop.
-
-> I tried different servers, but none worked. Looking on Internet, I found an HTTP address that can be used as a server that I don't see in the list.
-
-- Select `Enter manually`.
-    - Type `archive.debian.org`.
-    - Accept default choices.
-
-> OK! Not so bad. Quick one.
-
-- In modules step, select: `fdisk, lvm-cfg, md+lvm, partman ext3, partman raid`.
-- In language step, select your region and add the desired keyboard layouts.
-- Follow steps up to partionning.
-- In partionning step, select `Manual` then `Configure RAID`: I recommend using RAID-1 as it is more safe for your data, but you are free, it shouldn't change the following steps.
-
-> Here, after some retries to learn the appropriate choices, it was crashing. Almost each step will struggle me to dead! A few metaphorical slaps in the face later.
-
-- Go to shell.
-- `cat /var/log/syslog`.
-
-> I could see in the log it couldn't access to device because it was busy. After scratching my head, I thought: Other RAIDs I configured needed a resynchronisation. Let's take a look. (This log will become my friend toward pursuing my goal.)
-
+- `tail -f /var/log/syslog`.
 - `cat /proc/mdstat`.
 
 ```
-The RAID is currently syncing. (This is a paraphrase)
+No such file
 ```
 
-> Let's take a break. This process is multiple hours long.
+> Oh! So, I have to continue the installation before having access to that.
 
-- If you wish to follow the progress, you can use a loop:
-    - `while true; do printf "\033\143"; cat /proc/mdstat; echo "CTRL-C to quit"; sleep 10; done`.
+- Open another SSH connection. I will name it SSH-installation (shorten SSH-i).
 
-> Few hours later...
+> OK! Now, to discern in what connection I am doing things, I'll prefix the step with its shortname when I change of context.
+
+- SSH-i: Choose `Expert mode`.
+- Select `Enter manually`.
+    - Type `archive.debian.org`.
+    - Accept default choices.
+- In modules step, select: `fdisk, lvm-cfg, md+lvm, partman ext3, partman raid`.
+- In language step, select your region and add the desired keyboard layouts.
+- Follow steps up to partionning and enter it.
+- SSH-b: `cat /proc/mdstat`.
+```
+The RAID is active. (This is a paraphrase)
+```
+- SSH-i: In partionning step, select `Guided LVM`.
+    - Give the names you want.
+    - Select both disks.
+
+- Continue up to `install base system`.
+    - Choose `linux-image-orion5x`
+
+At ~78%:\
+```
+Failed installing busybox : "There are problems and -y was used without --force-yes"
+```
+
+> What the heck!? After some investigation, I found a line I could add the missing option. Really! Shoudn't it be going through without the modification I will apply!? This step won't be an exception: hard work!
+
+- SSH-b: `nano /bin/apt-install`:
+    - Replace `apt_opts="-q -y"` by `apt_opts="-q -y --force-yes"`.
+
+- SSH-i: Enter `install base system`.
+
+> Worst! Iiiii. It failed before choosing the Linux headers. I will try to apply the modification just before headers choice.
+
+- SSH-b: Revert the modification of `/bin/apt-install`
+
+- SSH-i: Enter `install base system`.
+    - Stop on headers choice.
+
+- SSH-b: `nano /bin/apt-install`:
+    - Replace `apt_opts="-q -y"` by `apt_opts="-q -y --force-yes"`.
+
+- SSH-i: In `install base system`:
+    - Choose `linux-image-orion5x`
+    
+At ~83%:
+```
+Jan 24 19:17:47 in-target: /etc/kernel/postinst.d/initramfs-tools:
+Jan 24 19:17:47 in-target: update-initramfs: Generating /boot/initrd.img-3.16.0-6-orion5x
+Jan 24 19:17:48 in-target: mkinitramfs: for device /dev/mapper/VOLUME_GROUPE_NAME--vg-root missing  /sys/block/ entry
+Jan 24 19:17:48 in-target: mkinitramfs: workaround is MODULES=most
+Jan 24 19:17:48 in-target: mkinitramfs: Error please report the bug
+Jan 24 19:17:48 in-target: update-initramfs: failed for /boot/initrd.img-3.16.0-6-orion5x with 1.
+Jan 24 19:17:48 in-target: run-parts: /etc/kernel/postinst.d/initramfs-tools exited with return code 1
+Jan 24 19:17:48 in-target: Failed to process /etc/kernel/postinst.d at /var/lib/dpkg/info/linux-image-3.16.0-6-orion5x.postinst line 634
+```
+- SSH-i: For `install base system`, I tried:
+    - Different combinations on when to apply my modification.
+    - Launching the installer with `MODULES=most && debian-installer`.
+    - Not adding keyboard layout: this one fixed some "minor" errors.
+
+> The horizon depicts an enormous cyclone. Well, I learned not to add keyboard layouts. Even though choosing a kernel is mandatory to make the boot, I told myself I could test "none" and try to install it later on.
+
+- SSH-b: Ensure to have the modification of `/bin/apt-install`
+
+- SSH-i: In `install base system`:
+    - Choose `none` on the kernel question.
+    
+- Continue up to "Configure package manager"
+	- I chose `No` to first two choices, **security updates** only.
+
+- Continue with *Select and install software*
+
+> From there, it has been a tough row to hoe.
+
+Among my infinite attempts, I found this error:
+```
+GPG error: http://archive.debian.org jessie Release: The following signatures were invalid: KEYEXPIRED 1587841717" (GMT: Saturday 25 April 2020 19:08:37) when "chroot /target /usr/bin/apt-get update
+```
+
+> I realized something big here! I was about sure the issue with the obligation to use `--force-yes` was linked to a certificate issue, but I didn't see, at first, it was linked to an expired one. So...
+
+- SSH-b: `date -s '2020-01-01 11:00:00'`
+
+> The date was chosen to be lower than the Linux time 1587841717. My hacks trying to inject `--force-yes` shall now be useless. Cool!
 
 >  I will start back.
 
