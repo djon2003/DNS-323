@@ -151,8 +151,13 @@ The RAID is active. (This is a paraphrase)
 In this section, I won't list all the problems I encountered, but they were minimal and not so worth mentioning. I am not 100% ensure if there is no useless `sudo`.
 
 I decided to create a main folder where all my shares would be and to begin with I have:
+
 - `mkdir -p /share/data`
+- `chmod 777 /share/data`
 - `mkdir -p /share/scripts`
+- `chmod 777 /share/scripts`
+
+> Here I opened file permissions to those to full, but you can lower it or do what ever you want.
 
 #### Sudo
 
@@ -183,4 +188,12 @@ I decided to create a main folder where all my shares would be and to begin with
 
 - `wget -O /share/scripts/monitor-fans.sh https://raw.githubusercontent.com/djon2003/DNS-323/2.3-Add-ons/files/monitor-fans.sh`
 - `sudo /share/scripts/monitor-fans.sh --install`
+
+#### NTP
+
+- `sudo apt install ntp`
+
+#### New locales (for UTF-8)
+
+- `sudo dpkg-reconfigure locales`
 
