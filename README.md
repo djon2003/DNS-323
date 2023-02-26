@@ -97,11 +97,11 @@ Password: install
 > OK! Now, to discern in what connection I am doing things, I'll prefix the step with its shortname when I change of context.
 
 - SSH-i: Choose **Expert mode**.
-- Select **Enter manually**.
+- In *choosing server* step, select **Enter manually**.
     - Type `archive.debian.org`.
     - Accept default choices.
 - In *modules* step, select: `fdisk, lvm-cfg, md+lvm, partman ext3, partman raid`.
-- In *language* step, select your region, BUT do NOT add keyboard layout/locales.
+- In *language* step, select your region, BUT do ***NOT*** add keyboard layout/locales.
 - Follow steps up to *partionning* and enter it.
 
 - SSH-b: `cat /proc/mdstat`.
