@@ -1,0 +1,23 @@
+#!/bin/sh
+
+systemctl status smbd 2>/dev/null 1>/dev/null
+if [ $? -ne 0 ]; then
+	exit;
+fi
+
+usbMountFolder=$(basename "$UM_MOUNTPOINT")
+label=$(blkid -s LABEL -o value $UM_DEVICE)
+if [ "$label" = "" ]; then
+	label="$usbMountFolder"
+fi
+
+shareFile="/etc/samba/smb.d/$usbMountFolder"
+includeLine="include = $shareFile"
+
+if [ -f "$shareFile" ]; then
+	rm "$shareFile"
+fi
+lineExists=$(grep -F "$includeLine" /etc/samba/smb.conf)
+if [ "$lineExists" != "" ]; then
+	sed -iE "\#$includeLine#d" "/etc/samba/smb.conf"
+fi
