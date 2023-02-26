@@ -251,3 +251,12 @@ I decided to create a main folder where all my shares would be and to begin with
 - `sudo mkdir /etc/samba/smb.d/`
 - `wget -O /share/scripts/clear-phantom-shares.sh https://github.com/djon2003/DNS-323/raw/2.3-Add-ons/files/clear-phantom-shares.sh`
 - `sudo /share/scripts/clear-phantom-shares.sh --install`
+
+#### Interesting packages
+
+- `sudo apt-get install usbutils`: Tools for the USB port.
+- `sudo apt install lshw`
+	- `lshw -C network` : To show  network adapter.
+- `sudo apt-get install eject` 
+	- `eject /dev/sdc` : To disconnect/umount USB drive
+- `sudo apt-get install udisks2` : Utilitary for USB. i.e. power-off. In my case, using `udisksctl power-off -b /dev/sdc`, made my USB HDD to be completely off. USB reconnection didn't work. I had to unplug the power cable and replug all to have the disk detected again. But, could be useful.
