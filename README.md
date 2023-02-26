@@ -89,10 +89,30 @@ Password: install
     - Type `archive.debian.org`.
     - Accept default choices.
 - In *modules* step, select: `fdisk, lvm-cfg, md+lvm, partman ext3, partman raid`.
-- In *language* step, select your region, BUT do ***NOT*** add keyboard layout/locales.
+
+- SSH-b: If it is your first boot, then, using `fdisk`, delete all partitions and ensure GPT on both disks.
+
+- SSH-i: In *language* step, select your region, BUT do ***NOT*** add keyboard layout/locales.
 - Follow steps up to *partionning* and enter it.
 
+- If it is your first boot:
+
+	- Select **Manual**.
+	- Follow the **Configure RAID** menu. I recommend using RAID-1 as it is more safe for your data, but you are free, it shouldn't change the following steps.
+	- Reboot NAS and start this section over.
+
 - SSH-b: `cat /proc/mdstat`.
+
+If you get:
+
+```
+The RAID is currently syncing. (This is a paraphrase)
+```
+
+Use `while true; do printf "\033\143"; cat /proc/mdstat; echo "CTRL-C to quit"; sleep 10; done` until you get the result below then reboot.
+
+If you get following result right away, then continue:
+
 ```
 The RAID is active. (This is a paraphrase)
 ```
