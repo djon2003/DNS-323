@@ -53,12 +53,6 @@ OK! After looking at what I found, I choose Debian because I have someone that a
 
 ### Finding the new IP address and connecting
 
-- I firstly thought to ping my device in a loop using the previously assigned IP address
-
-- I secondly tried to verify my router DHCP table to retrieve the new address.
-
-> No luck. What I've done. My hardware is no more accessible and my only way to connect back to it would be the [the serial method](http://www.cyrius.com/debian/orion/d-link/dns-323/recovery/). Wait! I know! Based on the instructions, I have to connect via SSH. So, I could search the IP with a software that looks for opened ports in my local network.
-
 - Get your computer IP address:
     - Via command line:
         - Open `cmd`.
@@ -91,11 +85,7 @@ Username: installer
 Password: install
 ```
 
-> Bingo! At least I can still access my device. I am safe.
-
 ### Installing the operating system
-
-> This time, I'll prepare myself like a pro.
 
 - Go to shell directly with this first SSH connection. I will name it SSH-behind-the-scene (shorten SSH-b).
 
@@ -113,16 +103,15 @@ Password: install
 - In modules step, select: `fdisk, lvm-cfg, md+lvm, partman ext3, partman raid`.
 - In language step, select your region, BUT do NOT add keyboard layout/locales.
 - Follow steps up to partionning and enter it.
+
 - SSH-b: `cat /proc/mdstat`.
 ```
 The RAID is active. (This is a paraphrase)
 ```
+
 - SSH-i: In partionning step, select **Guided LVM**.
     - Give the names you want.
     - Select both disks.
-
-> At that point, I knew I had to choose a kernel. So, I tried to dig into how to apply the fix suggestion in the error of `mkinitramfs`.
-
 - Continue up to *install base system*.
     - **STOP** on kernel choice.
 
@@ -130,65 +119,31 @@ The RAID is active. (This is a paraphrase)
 	- Search for `MODULES=most`.
 	- Comment all the "case" lines ***except*** `auto_add_modules`.
 	
-- In *install base system*.
+- SSH-i: In *install base system*.
     - Choose `linux-image-orion5x`
-    
-> OHHHHHHHHHHH!! Wow! I went through this step without error.
-
 - Continue up to *Configure package manager*.
 	- I chose `No` to first two choices, **security updates** only.
-
-- Continue up to *Make the system bootable*.
-
-> It fails now because the `initrd` file is too big for the hardware. I will reproduce the issue myself.
+- Continue up to *Make the system bootable* and **WAIT**.
 
 - SSH-b: `. /lib/chroot-setup.sh`.
-- `chroot_setup`.
-- `chroot /target/ update-initramfs -u -k 3.16.0-6-orion5x`.
-
-```
-update-initramfs: Generating /boot/initrd.img-3.16.0-6-orion5x
-flash-kernel: installing version 3.16.0-6-orion5x
-
-The initial ramdisk is too large. This is often due to the unnecessary inclusion
-of all kernel modules in the image. To fix this set MODULES=dep in one or both
-/etc/initramfs-tools/conf.d/driver-policy (if it exists) and
-/etc/initramfs-tools/initramfs.conf and then run 'update-initramfs -u -k 3.16.0-6-orion5x'
-
-Not enough space for initrd in MTD 'File System' (need 10528885 but is actually 6488064).
-run-parts: /etc/initramfs/post-update.d//flash-kernel exited with return code 1
-```
-
-> I tried to set `set MODULES=dep`, but I got the same error.
-
 - Change to `MODULES=loaded` in `/target/etc/initramfs-tools/conf.d/driver-policy` and `/target/etc/initramfs-tools/initramfs.conf`.
 - `chroot /target lsmod | cut -f 1 -d\  > /target/etc/initramfs-tools/modules`.
 - Ensure /target/etc/initramfs-tools/modules first line is not "Module", if so delete it.
 - `nano /target/usr/sbin/mkinitramfs`.
 	- Search for `MODULES=most`.
 	- Comment all the "case" lines ***including*** "auto_add_modules".
-- `chroot /target/ update-initramfs -u -k 3.16.0-6-orion5x`.
-
-> BANG!! The flash has been updated. Another irreversible step. Crossing fingers!
+- `chroot_cleanup`.
 
 > I am confident that the above modification could replace previous modification made when it was the *install base system* step. If you want to try/test it.
 
-- SSH-i: Continue with *Make the system bootable*.
+- SSH-i: Proceed with the other installation steps.
 
-> OHH NO!! It fails because it says something (I don't remember what) is already currently running.
-
-- SSH-b: `chroot_cleanup`.
-
-- SSH-i: Continue with *Make the system bootable*.
-
-> Waiting... waiting... waiting...! The step ended. No error! Yahoo!! Final step.
-
-- Proceed with the final installation steps.
-
-- `shutdown -r now`.
+- SSH-b: `shutdown -r now`. (If needed)
 
 > After reboot...
 
 - `ssh USERNAME@192.168.1.123`.
 
-> Boom! I am connected on the newly installed system! Already gained more physical space! Let's relax a bit and will finish with "add-ons".
+> Boom! I am connected on the newly installed system! Now stop relaxing and do all the "add-ons" to have a really good hardware.
+
+### Making a complete NAS
