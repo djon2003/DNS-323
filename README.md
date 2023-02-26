@@ -223,3 +223,31 @@ I decided to create a main folder where all my shares would be and to begin with
 - Install exFAT support: `sudo apt install exfat-fuse exfat-utils`.
 - Install NTFS support: `sudo apt install ntfs-3g`
 - Printer: I will let this exercise to the reader. As this one I've been able to do  it, but that's true for my model. Maybe in the future.
+
+#### Automount / Autoshare USB disks
+
+> At first, I installed latest Debian repo version, but there is bug that is fixed in the latest version. So, compiling time!
+
+##### Compile & Install USBMount
+
+- `sudo apt-get install debhelper build-essential`
+- `mkdir /share/temp-install`
+- `cd /share/temp-install`
+- `wget https://github.com/rbrito/usbmount/archive/refs/heads/master.zip`
+- `unzip master.zip`
+- `cd usbmount-master`
+- `sudo dpkg-buildpackage -us -uc -b`
+- `dpkg -i ../usbmount_0.0.24_all.deb`
+- `cd /`
+- `rm -rf /share/temp-install`
+
+##### Configuration & script to ensure share alive
+
+- `sudo nano /etc/usbmount/usbmount.conf`:
+	- Add to **FILESYSTEMS** `exfat ntfs fuseblk ntfs-3g`
+	- Replace **MOUNTOPTIONS** value by `uid=1000,gid=1000,nodev`
+- `sudo wget -O /etc/usbmount/mount.d/01_create_samba_share https://github.com/djon2003/DNS-323/raw/2.3-Add-ons/files/01_create_samba_share`
+- `sudo wget -O /etc/usbmount/umount.d/01_remove_samba_share https://github.com/djon2003/DNS-323/raw/2.3-Add-ons/files/01_remove_samba_share`
+- `sudo mkdir /etc/samba/smb.d/`
+- `wget -O /share/scripts/clear-phantom-shares.sh https://github.com/djon2003/DNS-323/raw/2.3-Add-ons/files/clear-phantom-shares.sh`
+- `sudo /share/scripts/clear-phantom-shares.sh --install`
