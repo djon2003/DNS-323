@@ -161,7 +161,13 @@ I decided to create a main folder where all my shares would be and to begin with
 - `usermod -aG sudo USERNAME`. Where USERNAME is the username you used during Debian installation section.
 - Restart SSH session.
 
+#### Postfix
+
+- `sudo apt install postfix`
+	- Choose Internet with smarthost.
+
 #### Fan
+
 - `sudo apt-get install lm-sensors`
 - `sudo sensors-detect`
 	- `YES` to all
@@ -170,5 +176,11 @@ I decided to create a main folder where all my shares would be and to begin with
 - `sudo pwmconfig`
 - `sudo /etc/init.d/fancontrol start`
 
-> Yes! The fan starts and his controled by the OS.
+> Yes! The fan starts and it's controlled by the OS. Would be great if I would receive an email if the fan breaks. No? I wrote a script than does that including three modes:
+> - No param: Tells you if the fan works.
+> - `--install`: Install monitoring each 5 minutes.
+> - `--uninstall`: Uninstall monitoring.
+
+- `wget -O /share/scripts/monitor-fans.sh https://raw.githubusercontent.com/djon2003/DNS-323/2.3-Add-ons/files/monitor-fans.sh`
+- `sudo /share/scripts/monitor-fans.sh --install`
 
