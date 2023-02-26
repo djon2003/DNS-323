@@ -147,3 +147,12 @@ The RAID is active. (This is a paraphrase)
 > Boom! I am connected on the newly installed system! Now stop relaxing and do all the "add-ons" to have a really good hardware.
 
 ### Making a complete NAS
+
+In this section, I won't list all the problems I encountered, but they were minimal and not so worth mentioning.
+
+#### Sudo
+
+- `su`
+- `apt install sudo`
+- `usermod -aG sudo USERNAME`. Where USERNAME is the username you used during Debian installation section.
+- Restart SSH session.
