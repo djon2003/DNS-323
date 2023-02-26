@@ -112,8 +112,8 @@ No such file
 
 > OK! Now, to discern in what connection I am doing things, I'll prefix the step with its shortname when I change of context.
 
-- SSH-i: Choose `Expert mode`.
-- Select `Enter manually`.
+- SSH-i: Choose **Expert mode**.
+- Select **Enter manually**.
     - Type `archive.debian.org`.
     - Accept default choices.
 - In modules step, select: `fdisk, lvm-cfg, md+lvm, partman ext3, partman raid`.
@@ -123,11 +123,11 @@ No such file
 ```
 The RAID is active. (This is a paraphrase)
 ```
-- SSH-i: In partionning step, select `Guided LVM`.
+- SSH-i: In partionning step, select **Guided LVM**.
     - Give the names you want.
     - Select both disks.
 
-- Continue up to `install base system`.
+- Continue up to *install base system*.
     - Choose `linux-image-orion5x`
 
 At ~78%:\
@@ -140,19 +140,19 @@ Failed installing busybox : "There are problems and -y was used without --force-
 - SSH-b: `nano /bin/apt-install`:
     - Replace `apt_opts="-q -y"` by `apt_opts="-q -y --force-yes"`.
 
-- SSH-i: Enter `install base system`.
+- SSH-i: Enter *install base system*.
 
 > Worst! Iiiii. It failed before choosing the Linux headers. I will try to apply the modification just before headers choice.
 
 - SSH-b: Revert the modification of `/bin/apt-install`
 
-- SSH-i: Enter `install base system`.
+- SSH-i: Enter *install base system*.
     - Stop on headers choice.
 
 - SSH-b: `nano /bin/apt-install`:
     - Replace `apt_opts="-q -y"` by `apt_opts="-q -y --force-yes"`.
 
-- SSH-i: In `install base system`:
+- SSH-i: In *install base system*:
     - Choose `linux-image-orion5x`
     
 At ~83%:
@@ -166,7 +166,7 @@ Jan 24 19:17:48 in-target: update-initramfs: failed for /boot/initrd.img-3.16.0-
 Jan 24 19:17:48 in-target: run-parts: /etc/kernel/postinst.d/initramfs-tools exited with return code 1
 Jan 24 19:17:48 in-target: Failed to process /etc/kernel/postinst.d at /var/lib/dpkg/info/linux-image-3.16.0-6-orion5x.postinst line 634
 ```
-- SSH-i: For `install base system`, I tried:
+- SSH-i: For *install base system*, I tried:
     - Different combinations on when to apply my modification.
     - Launching the installer with `MODULES=most && debian-installer`.
     - Not adding keyboard layout: this one fixed some "minor" errors.
@@ -175,10 +175,10 @@ Jan 24 19:17:48 in-target: Failed to process /etc/kernel/postinst.d at /var/lib/
 
 - SSH-b: Ensure to have the modification of `/bin/apt-install`
 
-- SSH-i: In `install base system`:
+- SSH-i: In *install base system*:
     - Choose `none` on the kernel question.
     
-- Continue up to "Configure package manager"
+- Continue up to *Configure package manager*
 	- I chose `No` to first two choices, **security updates** only.
 
 - Continue with *Select and install software*
