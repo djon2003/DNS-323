@@ -99,14 +99,8 @@ Password: install
 
 - Go to shell directly with this first SSH connection. I will name it SSH-behind-the-scene (shorten SSH-b).
 
+- `date -s '2020-01-01 11:00:00'`
 - `tail -f /var/log/syslog`.
-- `cat /proc/mdstat`.
-
-```
-No such file
-```
-
-> Oh! So, I have to continue the installation before having access to that.
 
 - Open another SSH connection. I will name it SSH-installation (shorten SSH-i).
 
@@ -117,7 +111,7 @@ No such file
     - Type `archive.debian.org`.
     - Accept default choices.
 - In modules step, select: `fdisk, lvm-cfg, md+lvm, partman ext3, partman raid`.
-- In language step, select your region and add the desired keyboard layouts.
+- In language step, select your region, BUT do NOT add keyboard layout/locales.
 - Follow steps up to partionning and enter it.
 - SSH-b: `cat /proc/mdstat`.
 ```
@@ -127,75 +121,74 @@ The RAID is active. (This is a paraphrase)
     - Give the names you want.
     - Select both disks.
 
+> At that point, I knew I had to choose a kernel. So, I tried to dig into how to apply the fix suggestion in the error of `mkinitramfs`.
+
 - Continue up to *install base system*.
-    - Choose `linux-image-orion5x`
+    - **STOP** on kernel choice.
 
-At ~78%:\
-```
-Failed installing busybox : "There are problems and -y was used without --force-yes"
-```
-
-> What the heck!? After some investigation, I found a line I could add the missing option. Really! Shoudn't it be going through without the modification I will apply!? This step won't be an exception: hard work!
-
-- SSH-b: `nano /bin/apt-install`:
-    - Replace `apt_opts="-q -y"` by `apt_opts="-q -y --force-yes"`.
-
-- SSH-i: Enter *install base system*.
-
-> Worst! Iiiii. It failed before choosing the Linux headers. I will try to apply the modification just before headers choice.
-
-- SSH-b: Revert the modification of `/bin/apt-install`
-
-- SSH-i: Enter *install base system*.
-    - Stop on headers choice.
-
-- SSH-b: `nano /bin/apt-install`:
-    - Replace `apt_opts="-q -y"` by `apt_opts="-q -y --force-yes"`.
-
-- SSH-i: In *install base system*:
+- SSH-b: `nano /target/usr/sbin/mkinitramfs`.
+	- Search for `MODULES=most`.
+	- Comment all the "case" lines ***except*** `auto_add_modules`.
+	
+- In *install base system*.
     - Choose `linux-image-orion5x`
     
-At ~83%:
-```
-Jan 24 19:17:47 in-target: /etc/kernel/postinst.d/initramfs-tools:
-Jan 24 19:17:47 in-target: update-initramfs: Generating /boot/initrd.img-3.16.0-6-orion5x
-Jan 24 19:17:48 in-target: mkinitramfs: for device /dev/mapper/VOLUME_GROUPE_NAME--vg-root missing  /sys/block/ entry
-Jan 24 19:17:48 in-target: mkinitramfs: workaround is MODULES=most
-Jan 24 19:17:48 in-target: mkinitramfs: Error please report the bug
-Jan 24 19:17:48 in-target: update-initramfs: failed for /boot/initrd.img-3.16.0-6-orion5x with 1.
-Jan 24 19:17:48 in-target: run-parts: /etc/kernel/postinst.d/initramfs-tools exited with return code 1
-Jan 24 19:17:48 in-target: Failed to process /etc/kernel/postinst.d at /var/lib/dpkg/info/linux-image-3.16.0-6-orion5x.postinst line 634
-```
-- SSH-i: For *install base system*, I tried:
-    - Different combinations on when to apply my modification.
-    - Launching the installer with `MODULES=most && debian-installer`.
-    - Not adding keyboard layout: this one fixed some "minor" errors.
+> OHHHHHHHHHHH!! Wow! I went through this step without error.
 
-> The horizon depicts an enormous cyclone. Well, I learned not to add keyboard layouts. Even though choosing a kernel is mandatory to make the boot, I told myself I could test "none" and try to install it later on.
-
-- SSH-b: Ensure to have the modification of `/bin/apt-install`
-
-- SSH-i: In *install base system*:
-    - Choose `none` on the kernel question.
-    
-- Continue up to *Configure package manager*
+- Continue up to *Configure package manager*.
 	- I chose `No` to first two choices, **security updates** only.
 
-- Continue with *Select and install software*
+- Continue up to *Make the system bootable*.
 
-> From there, it has been a tough row to hoe.
+> It fails now because the `initrd` file is too big for the hardware. I will reproduce the issue myself.
 
-Among my infinite attempts, I found this error:
+- SSH-b: `. /lib/chroot-setup.sh`.
+- `chroot_setup`.
+- `chroot /target/ update-initramfs -u -k 3.16.0-6-orion5x`.
+
 ```
-GPG error: http://archive.debian.org jessie Release: The following signatures were invalid: KEYEXPIRED 1587841717" (GMT: Saturday 25 April 2020 19:08:37) when "chroot /target /usr/bin/apt-get update
+update-initramfs: Generating /boot/initrd.img-3.16.0-6-orion5x
+flash-kernel: installing version 3.16.0-6-orion5x
+
+The initial ramdisk is too large. This is often due to the unnecessary inclusion
+of all kernel modules in the image. To fix this set MODULES=dep in one or both
+/etc/initramfs-tools/conf.d/driver-policy (if it exists) and
+/etc/initramfs-tools/initramfs.conf and then run 'update-initramfs -u -k 3.16.0-6-orion5x'
+
+Not enough space for initrd in MTD 'File System' (need 10528885 but is actually 6488064).
+run-parts: /etc/initramfs/post-update.d//flash-kernel exited with return code 1
 ```
 
-> I realized something big here! I was about sure the issue with the obligation to use `--force-yes` was linked to a certificate issue, but I didn't see, at first, it was linked to an expired one. So...
+> I tried to set `set MODULES=dep`, but I got the same error.
 
-- SSH-b: `date -s '2020-01-01 11:00:00'`
+- Change to `MODULES=loaded` in `/target/etc/initramfs-tools/conf.d/driver-policy` and `/target/etc/initramfs-tools/initramfs.conf`.
+- `chroot /target lsmod | cut -f 1 -d\  > /target/etc/initramfs-tools/modules`.
+- Ensure /target/etc/initramfs-tools/modules first line is not "Module", if so delete it.
+- `nano /target/usr/sbin/mkinitramfs`.
+	- Search for `MODULES=most`.
+	- Comment all the "case" lines ***including*** "auto_add_modules".
+- `chroot /target/ update-initramfs -u -k 3.16.0-6-orion5x`.
 
-> The date was chosen to be lower than the Linux time 1587841717. My hacks trying to inject `--force-yes` shall now be useless. Cool!
+> BANG!! The flash has been updated. Another irreversible step. Crossing fingers!
 
->  I will start back.
+> I am confident that the above modification could replace previous modification made when it was the *install base system* step. If you want to try/test it.
 
-- `shutdown -r now`
+- SSH-i: Continue with *Make the system bootable*.
+
+> OHH NO!! It fails because it says something (I don't remember what) is already currently running.
+
+- SSH-b: `chroot_cleanup`.
+
+- SSH-i: Continue with *Make the system bootable*.
+
+> Waiting... waiting... waiting...! The step ended. No error! Yahoo!! Final step.
+
+- Proceed with the final installation steps.
+
+- `shutdown -r now`.
+
+> After reboot...
+
+- `ssh USERNAME@192.168.1.123`.
+
+> Boom! I am connected on the newly installed system! Already gained more physical space! Let's relax a bit and will finish with "add-ons".
