@@ -260,3 +260,6 @@ I decided to create a main folder where all my shares would be and to begin with
 - `sudo apt-get install eject` 
 	- `eject /dev/sdc` : To disconnect/umount USB drive
 - `sudo apt-get install udisks2` : Utilitary for USB. i.e. power-off. In my case, using `udisksctl power-off -b /dev/sdc`, made my USB HDD to be completely off. USB reconnection didn't work. I had to unplug the power cable and replug all to have the disk detected again. But, could be useful.
+
+> Now my satisfication peeked! I took a moment to contemplate my success and also to remember the labor needed to reach complete final success (in other words the failures). More than having a pratically new device, my knowledge grown and in some extend I learned new things even with the abandoned branches/tries/ideas.
+> Next step is to write what I have done so others could benefit from my experience/experiment.
