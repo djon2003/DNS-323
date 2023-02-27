@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# Fix wrong mounting
+isValid=$(ls -U "$UM_MOUNTPOINT" 2>&1 1>/dev/null | head -1)
+
+if [ "$isValid" != "" ]; then
+	logger "usbmount - remounting device not properly umount : $UM_DEVICE"
+	umount "$UM_DEVICE"
+	mount "$UM_DEVICE" "$UM_MOUNTPOINT"
+fi
+
+# Ensure Samba is running
+systemctl status smbd 2>/dev/null 1>/dev/null
+if [ $? -ne 0 ]; then
+	exit;
+fi
+
+# Add share
+usbMountFolder=$(basename "$UM_MOUNTPOINT")
+label=$(blkid -s LABEL -o value $UM_DEVICE)
+if [ "$label" = "" ]; then
+	label="$usbMountFolder"
+fi
+
+newShare="[$label]\n"
+newShare="$newShare   comment = USB device on $(hostname)\n"
+newShare="$newShare   path = $UM_MOUNTPOINT\n"
+newShare="$newShare   browsable = yes\n"
+newShare="$newShare   read only = no\n"
+newShare="$newShare   guest ok = no\n"
+
+shareFile="/etc/samba/smb.d/$usbMountFolder"
+includeLine="include = $shareFile"
+
+echo "$newShare" > "$shareFile"
+lineExists=$(grep "$includeLine" /etc/samba/smb.conf)
+if [ "$lineExists" = "" ]; then
+	echo "$includeLine" >> /etc/samba/smb.conf
+fi
