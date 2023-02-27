@@ -75,24 +75,24 @@ Password: install
 
 ### Installing the operating system
 
-- Go to shell directly with this first SSH connection. I will name it SSH-behind-the-scene (shorten SSH-b).
+- Go to shell directly with this first SSH connection. I will name it SSH-behind-the-scene (shorten SSH-b ![SSH-b][1]).
 
 - `date -s '2020-01-01 11:00:00'`
 - `tail -f /var/log/syslog`
 
-- Open another SSH connection. I will name it SSH-installation (shorten SSH-i).
+- Open another SSH connection. I will name it SSH-installation (shorten SSH-i ![SSH-i][2]).
 
 > OK! Now, to discern in what connection I am doing things, I'll prefix the step with its shortname when I change of context.
 
-- SSH-i: Choose **Expert mode**.
+- ![SSH-i][2]: Choose **Expert mode**.
 - In *choosing server* step, select **Enter manually**.
     - Type `archive.debian.org`.
     - Accept default choices.
 - In *modules* step, select: `fdisk, lvm-cfg, md+lvm, partman ext3, partman raid`.
 
-- SSH-b: If it is your first boot, then, using `fdisk`, delete all partitions and ensure GPT on both disks.
+- ![SSH-b][1]: If it is your first boot, then, using `fdisk`, delete all partitions and ensure GPT on both disks.
 
-- SSH-i: In *language* step, select your region, BUT do ***NOT*** add keyboard layout/locales.
+- ![SSH-i][2]: In *language* step, select your region, BUT do ***NOT*** add keyboard layout/locales.
 - Follow steps up to *partionning* and enter it.
 
 - If it is your first boot:
@@ -101,7 +101,7 @@ Password: install
 	- Follow the **Configure RAID** menu. I recommend using RAID-1 as it is more safe for your data, but you are free, it shouldn't change the following steps.
 	- Reboot NAS and start this section over.
 
-- SSH-b: `cat /proc/mdstat`
+- ![SSH-b][1]: `cat /proc/mdstat`
 
 If you get:
 
@@ -117,23 +117,23 @@ If you get following result right away, then continue:
 The RAID is active. (This is a paraphrase)
 ```
 
-- SSH-i: In *partionning* step, select **Guided LVM**.
+- ![SSH-i][2]: In *partionning* step, select **Guided LVM**.
     - Give the names you want.
     - Select both disks.
 - Continue up to *install base system*.
     - **STOP** on kernel choice.
 
-- SSH-b: `nano /target/usr/sbin/mkinitramfs`:
+- ![SSH-b][1]: `nano /target/usr/sbin/mkinitramfs`:
 	- Search for `MODULES=most`.
 	- Comment all the "case" lines ***except*** `auto_add_modules`.
 	
-- SSH-i: In *install base system*.
+- ![SSH-i][2]: In *install base system*.
     - Choose `linux-image-orion5x`.
 - Continue up to *Configure package manager*.
 	- I chose `No` to first two choices, **security updates** only.
 - Continue up to *Make the system bootable* and **WAIT**.
 
-- SSH-b: `. /lib/chroot-setup.sh`
+- ![SSH-b][1]: `. /lib/chroot-setup.sh`
 - Change to `MODULES=loaded` in `/target/etc/initramfs-tools/conf.d/driver-policy` and `/target/etc/initramfs-tools/initramfs.conf`.
 - `chroot /target lsmod | cut -f 1 -d\  > /target/etc/initramfs-tools/modules`
 - Ensure `/target/etc/initramfs-tools/modules` first line is not "Module", if so delete it.
@@ -144,9 +144,9 @@ The RAID is active. (This is a paraphrase)
 
 > I am confident that the above modification could replace previous modification made when it was the *install base system* step. If you want to try/test it.
 
-- SSH-i: Proceed with the other installation steps.
+- ![SSH-i][2]: Proceed with the other installation steps.
 
-- SSH-b: `shutdown -r now`. (If needed)
+- ![SSH-b][1]: `shutdown -r now`. (If needed)
 
 > After reboot...
 
@@ -309,3 +309,12 @@ I decided to create a main folder where all my shares would be and to begin with
 - https://nas-tweaks.net/371/hdd-installation-of-the-fun_plug-0-7-on-nas-devices/#Steps_for_installing_fun_plug
 - http://dns323.kood.org/howto:crosscompile#pre-compiled_binaries
 - https://devguide.python.org/getting-started/setup-building/
+
+# Credits
+
+- <a href="https://www.flaticon.com/free-icons/software" title="software icons">Software terminal icons created by Freepik - Flaticon</a>
+- People on irc://irc.debian.org/#debian-arm
+- People on StackOverFlow or their related sites.
+
+[1]: https://github.com/djon2003/DNS-323/blob/2.4-Finalization/files/SSH-b.png?raw=true
+[2]: https://github.com/djon2003/DNS-323/blob/2.4-Finalization/files/SSH-i.png?raw=true
