@@ -44,7 +44,7 @@ The repository is organized with branches and the latest will be merged into mas
 - Get your computer IP address:
     - Via command line:
         - Open `cmd`.
-        - `ipconfig`.
+        - `ipconfig`
         - Look for the network adapter currently in use (the IP address shall start with `192.168.`.
     - Via GUI:
         - Open Windows parameters / control panel.
@@ -52,7 +52,7 @@ The repository is organized with branches and the latest will be merged into mas
         - View the details of the currently in use adapter.
 - Open [NMap](https://nmap.org/) (You can use the software of your choice that would achieve the same goal).
 - In target box, you can enter `192.168.1.0/24` (the IP address of your computer except the last number is replaced with 0).
-- In command box, add `-p 22` after `nmap`
+- In command box, add `-p 22` after `nmap`.
 - Click on the scan button.
 
 ```
@@ -66,7 +66,7 @@ Discovered open port 22/tcp on 192.168.1.HIDDEN
 All the `HIDDEN` keywords were in fact numbers, but for privacy, I obfuscate them. I left them here so you can see that you could have multiple devices having the port 22 opened. So, from there, you can discard all known IP addresses. If there is more then one left, you can try to connect vis SSH and if it connects, you found it. Here the IP address `192.168.1.123` would be my device (this is not the real one).
 
 - Open [Putty](https://www.putty.org/) or WSL (Windows Subsystem for Linux) that I now prefer over Putty for SSH.
-- `ssh installer@192.168.1.123`.
+- `ssh installer@192.168.1.123`
 
 ```
 Username: installer
@@ -78,7 +78,7 @@ Password: install
 - Go to shell directly with this first SSH connection. I will name it SSH-behind-the-scene (shorten SSH-b).
 
 - `date -s '2020-01-01 11:00:00'`
-- `tail -f /var/log/syslog`.
+- `tail -f /var/log/syslog`
 
 - Open another SSH connection. I will name it SSH-installation (shorten SSH-i).
 
@@ -101,7 +101,7 @@ Password: install
 	- Follow the **Configure RAID** menu. I recommend using RAID-1 as it is more safe for your data, but you are free, it shouldn't change the following steps.
 	- Reboot NAS and start this section over.
 
-- SSH-b: `cat /proc/mdstat`.
+- SSH-b: `cat /proc/mdstat`
 
 If you get:
 
@@ -123,24 +123,24 @@ The RAID is active. (This is a paraphrase)
 - Continue up to *install base system*.
     - **STOP** on kernel choice.
 
-- SSH-b: `nano /target/usr/sbin/mkinitramfs`.
+- SSH-b: `nano /target/usr/sbin/mkinitramfs`:
 	- Search for `MODULES=most`.
 	- Comment all the "case" lines ***except*** `auto_add_modules`.
 	
 - SSH-i: In *install base system*.
-    - Choose `linux-image-orion5x`
+    - Choose `linux-image-orion5x`.
 - Continue up to *Configure package manager*.
 	- I chose `No` to first two choices, **security updates** only.
 - Continue up to *Make the system bootable* and **WAIT**.
 
-- SSH-b: `. /lib/chroot-setup.sh`.
+- SSH-b: `. /lib/chroot-setup.sh`
 - Change to `MODULES=loaded` in `/target/etc/initramfs-tools/conf.d/driver-policy` and `/target/etc/initramfs-tools/initramfs.conf`.
-- `chroot /target lsmod | cut -f 1 -d\  > /target/etc/initramfs-tools/modules`.
-- Ensure /target/etc/initramfs-tools/modules first line is not "Module", if so delete it.
-- `nano /target/usr/sbin/mkinitramfs`.
+- `chroot /target lsmod | cut -f 1 -d\  > /target/etc/initramfs-tools/modules`
+- Ensure `/target/etc/initramfs-tools/modules` first line is not "Module", if so delete it.
+- `nano /target/usr/sbin/mkinitramfs`:
 	- Search for `MODULES=most`.
-	- Comment all the "case" lines ***including*** "auto_add_modules".
-- `chroot_cleanup`.
+	- Comment all the "case" lines ***including*** `auto_add_modules`
+- `chroot_cleanup`
 
 > I am confident that the above modification could replace previous modification made when it was the *install base system* step. If you want to try/test it.
 
@@ -150,7 +150,7 @@ The RAID is active. (This is a paraphrase)
 
 > After reboot...
 
-- `ssh USERNAME@192.168.1.123`.
+- `ssh USERNAME@192.168.1.123`
 
 ### Making a complete NAS
 
@@ -227,7 +227,7 @@ I decided to create a main folder where all my shares would be and to begin with
 #### USB port
 
 - Install exFAT support: `sudo apt install exfat-fuse exfat-utils`.
-- Install NTFS support: `sudo apt install ntfs-3g`
+- Install NTFS support: `sudo apt install ntfs-3g`.
 - Printer: I will let this exercise to the reader. As this one I've been able to do  it, but that's true for my model. Maybe in the future.
 
 #### Automount / Autoshare USB disks
@@ -248,8 +248,8 @@ I decided to create a main folder where all my shares would be and to begin with
 ##### Configuration & script to ensure share alive
 
 - `sudo nano /etc/usbmount/usbmount.conf`:
-	- Add to **FILESYSTEMS** `exfat ntfs fuseblk ntfs-3g`
-	- Replace **MOUNTOPTIONS** value by `uid=1000,gid=1000,nodev`
+	- Add to **FILESYSTEMS** `exfat ntfs fuseblk ntfs-3g`.
+	- Replace **MOUNTOPTIONS** value by `uid=1000,gid=1000,nodev`.
 - `sudo wget -O /etc/usbmount/mount.d/01_create_samba_share https://github.com/djon2003/DNS-323/raw/2.3-Add-ons/files/01_create_samba_share`
 - `sudo wget -O /etc/usbmount/umount.d/01_remove_samba_share https://github.com/djon2003/DNS-323/raw/2.3-Add-ons/files/01_remove_samba_share`
 - `sudo mkdir /etc/samba/smb.d/`
