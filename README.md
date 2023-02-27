@@ -152,7 +152,7 @@ The RAID is active. (This is a paraphrase)
 
 - `ssh USERNAME@192.168.1.123`
 
-### Making a complete NAS
+## Making a complete NAS
 
 > Note: I am not 100% ensure if there is no useless `sudo`.
 
@@ -165,19 +165,19 @@ I decided to create a main folder where all my shares would be and to begin with
 
 > Here I opened file permissions for those to full, but you can lower it or do what ever you want.
 
-#### Sudo
+### Sudo
 
 - `su`
 - `apt install sudo`
 - `usermod -aG sudo USERNAME`. Where USERNAME is the username you used during Debian installation section.
 - Restart SSH session.
 
-#### Postfix
+### Postfix
 
 - `sudo apt install postfix`
 	- Choose Internet with smarthost.
 
-#### Fan
+### Fan
 
 - `sudo apt-get install lm-sensors`
 - `sudo sensors-detect`
@@ -195,15 +195,15 @@ I decided to create a main folder where all my shares would be and to begin with
 - `wget -O /share/scripts/monitor-fans.sh https://raw.githubusercontent.com/djon2003/DNS-323/2.3-Add-ons/files/monitor-fans.sh`
 - `sudo /share/scripts/monitor-fans.sh --install`
 
-#### NTP
+### NTP
 
 - `sudo apt install ntp`
 
-#### New locales (for UTF-8)
+### New locales (for UTF-8)
 
 - `sudo dpkg-reconfigure locales`
 
-#### RAID monitoring
+### RAID monitoring
 
 - `sudo nano /etc/mdadm/mdadm.conf` :
 	- Add `MAILADDR my-email@domain.com`. Where `my-email@domain.com` has to be replaced by your email.
@@ -217,22 +217,22 @@ I decided to create a main folder where all my shares would be and to begin with
 	- `mdadm /dev/md0 -r /dev/sdb1`
 	- `mdadm /dev/md0 -a /dev/sdb1`
 
-#### Samba
+### Samba
 
 - `sudo apt-get install samba`
 - `sudo bash -c 'echo "include = /etc/samba/smb.share.conf2" >> /etc/samba/smb.conf'`
 - `sudo wget -O /etc/samba/smb.share.conf https://raw.githubusercontent.com/djon2003/DNS-323/2.3-Add-ons/files/smb.share.conf`
 - `sudo systemctl restart smbd`
 
-#### USB port
+### USB port
 
 - Install exFAT support: `sudo apt install exfat-fuse exfat-utils`.
 - Install NTFS support: `sudo apt install ntfs-3g`.
 - Printer: I will let this exercise to the reader. As this one I've been able to do  it, but that's true for my model. Maybe in the future.
 
-#### Automount / Autoshare USB disks
+### Automount / Autoshare USB disks
 
-##### Compile & Install USBMount
+#### Compile & Install USBMount
 
 - `sudo apt-get install debhelper build-essential`
 - `mkdir /share/temp-install`
@@ -245,7 +245,7 @@ I decided to create a main folder where all my shares would be and to begin with
 - `cd /`
 - `rm -rf /share/temp-install`
 
-##### Configuration & script to ensure share alive
+#### Configuration & script to ensure share alive
 
 - `sudo nano /etc/usbmount/usbmount.conf`:
 	- Add to **FILESYSTEMS** `exfat ntfs fuseblk ntfs-3g`.
@@ -256,7 +256,7 @@ I decided to create a main folder where all my shares would be and to begin with
 - `wget -O /share/scripts/clear-phantom-shares.sh https://github.com/djon2003/DNS-323/raw/2.3-Add-ons/files/clear-phantom-shares.sh`
 - `sudo /share/scripts/clear-phantom-shares.sh --install`
 
-#### Interesting packages
+### Interesting packages
 
 - `sudo apt-get install usbutils`: Tools for the USB port.
 - `sudo apt install lshw`
