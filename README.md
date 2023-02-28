@@ -4,6 +4,8 @@ Nowdays, the D-Link DNS-323 NAS is not supported anymore and the SMB protocol su
 # How to read
 The repository is organized with branches and the latest will be merged into master version. So, if you only want the instructions, just read next, otherwise, navigate through the branches and commmits.
 
+<a href="https://medium.com/@djon2003/failure-success-principle-dfe3249fcf37">Another point of view of this story: Failure & Success principle</a>
+
 # What you will obtain
 - Debian Jessie as operating system
 - SMBv3
