@@ -2,7 +2,7 @@
 Nowdays, the D-Link DNS-323 NAS is not supported anymore and the SMB protocol supports only the version 1. This is how I started the project: trying, at least, to obtain SMBv2.0. The saga is about failure and success: this method that the first part is not enough glorified.
 
 # How to read
-The repository is organized with branches and the latest will be merged into master version. So, if you only want the instructions, just read next, otherwise, navigate through the branches and commmits.
+The repository is organized with branches and the latest was merged into master. So, if you only want the instructions, just read next, otherwise, navigate through the branches and commits. Have fun!
 
 <a href="https://medium.com/@djon2003/failure-success-principle-dfe3249fcf37">Another point of view of this story: Failure & Success principle</a>
 
