@@ -36,7 +36,7 @@ The repository is organized with branches and the latest was merged into master.
 
 ### Replacing original firmware
 
-- Download https://archive.debian.org/debian/dists/wheezy/main/installer-armel/current/images/orion5x/network-console/d-link/dns-323/netboot.img on your computer.
+- Download https://archive.debian.org/debian/dists/jessie/main/installer-armel/current/images/orion5x/network-console/d-link/dns-323/netboot.img on your computer.
 - Use the web interface of your DNS-323, in the firmware update section, and select the previously downloaded file.
 - Proceed with "updating" your firmware. ⚠ Don't turn off / reboot your DNS-323 until it ends.
 - Reboot the hardware.
