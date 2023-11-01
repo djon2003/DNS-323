@@ -222,7 +222,7 @@ I decided to create a main folder where all my shares would be and to begin with
 ### Samba
 
 - `sudo apt-get install samba`
-- `sudo bash -c 'echo "include = /etc/samba/smb.share.conf2" >> /etc/samba/smb.conf'`
+- `sudo bash -c 'echo "include = /etc/samba/smb.share.conf" >> /etc/samba/smb.conf'`
 - `sudo wget -O /etc/samba/smb.share.conf https://raw.githubusercontent.com/djon2003/DNS-323/2.3-Add-ons/files/smb.share.conf`
 - `sudo systemctl restart smbd`
 
