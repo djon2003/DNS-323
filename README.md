@@ -298,6 +298,7 @@ So, let download the Freexian key, backup the current `sources.list`, use the HT
 - http://www.cyrius.com/debian/orion/d-link/dns-323/recovery/
 - http://dns323.kood.org/hardware%3Aserial
 - https://www.ionos.com/help/server-cloud-infrastructure/dedicated-server-for-servers-purchased-before-102818/rescue-and-recovery/software-raid-status-monitoring-linux/
+- https://www.cyrius.com/debian/orion/d-link/dns-323/deinstall/
 
 ## RAID
 
@@ -321,6 +322,10 @@ So, let download the Freexian key, backup the current `sources.list`, use the HT
 - https://www.cyberciti.biz/faq/how-to-find-fan-speed-in-linux-for-cpu-and-gpu/
 - https://unix.stackexchange.com/questions/134797/how-to-automatically-mount-an-usb-device-on-plugin-time-on-an-already-running-sy
 - https://github.com/rbrito/usbmount
+
+## Freexian
+
+- https://www.freexian.com/lts/extended/docs/how-to-use-extended-lts/
 
 ## Others
 - https://nas-tweaks.net/371/hdd-installation-of-the-fun_plug-0-7-on-nas-devices/#Steps_for_installing_fun_plug
