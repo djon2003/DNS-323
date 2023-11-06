@@ -28,7 +28,7 @@ The repository is organized with branches and the latest was merged into master.
 
 ⚠ Make sure to have a backup because this procedure will wipe all your data.\
 ⚠ If somehow, you are stuck somewhere, you might find a solution, you might get help, BUT always remember that it could be possible you will have to use [the serial method](http://www.cyrius.com/debian/orion/d-link/dns-323/recovery/) to recover to the [original firmware](https://ftp.dlink.ca/ftp/PRODUCTS/DNS-323/DNS-323_FIRMWARE_1.10.ZIP).\
-⚠ The D-Link DNS-323 is no longer supported by Debian.
+⚠ The D-Link DNS-323 is no longer supported by Debian, but I added a new section below to use Freexian ELTS repository to continue to obtain security updates till 2025.
 
 ---
 
@@ -266,6 +266,21 @@ I decided to create a main folder where all my shares would be and to begin with
 - `sudo apt-get install eject` 
 	- `eject /dev/sdc` : To disconnect/umount USB drive
 - `sudo apt-get install udisks2` : Utilitary for USB. i.e. power-off. In my case, using `udisksctl power-off -b /dev/sdc`, made my USB HDD to be completely off. USB reconnection didn't work. I had to unplug the power cable and replug all to have the disk detected again. But, could be useful.
+
+## Security updates till 2025
+Credit: [0b1001101](https://github.com/0b1001101) from [Issue #8](https://github.com/djon2003/DNS-323/issues/8)
+
+So, let download the Freexian key, backup the current `sources.list`, use the HTTP URLs to obtain `apt-transport-https` and finally change to HTTPS URLs.
+
+- `wget https://deb.freexian.com/extended-lts/archive-key.gpg -O elts-archive-key.gpg && sudo mv elts-archive-key.gpg /etc/apt/trusted.gpg.d/freexian-archive-extended-lts.gpg`
+- `sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak`
+- `sudo sh -c 'echo "deb http://deb.freexian.com/extended-lts jessie main" > /etc/apt/sources.list'`
+- `sudo sh -c 'echo "deb http://deb.freexian.com/extended-lts jessie-lts main" >> /etc/apt/sources.list'`
+- `sudo apt update`
+- `sudo apt upgrade`
+- `sudo apt install apt-transport-https`
+- `sudo sh -c 'echo "deb https://deb.freexian.com/extended-lts jessie main" > /etc/apt/sources.list'`
+- `sudo sh -c 'echo "deb https://deb.freexian.com/extended-lts jessie-lts main" >> /etc/apt/sources.list'`
 
 # References
 
