@@ -26,6 +26,7 @@ The repository is organized with branches and the latest was merged into master.
 
 > __Warning__ Read those notes before going any further
 
+⚠ ***This guide is written with basic to advanced Linux knowledge in mind. So be aware it is not recommended for new Linux users! If even then you wish to proceed, keep in mind it could be really difficult to help you out an issue, maybe even impossible.***\
 ⚠ Make sure to have a backup because this procedure will wipe all your data.\
 ⚠ If somehow, you are stuck somewhere, you might find a solution, you might get help, BUT always remember that it could be possible you will have to use [the serial method](http://www.cyrius.com/debian/orion/d-link/dns-323/recovery/) to recover to the [original firmware](https://ftp.dlink.ca/ftp/PRODUCTS/DNS-323/DNS-323_FIRMWARE_1.10.ZIP).\
 ⚠ The D-Link DNS-323 is no longer supported by Debian, but I added a new section below to use Freexian ELTS repository to continue to obtain security updates till 2025.
