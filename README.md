@@ -137,6 +137,8 @@ The RAID is active. (This is a paraphrase)
 - Continue up to *Make the system bootable* and **WAIT**.
 
 - ![SSH-b][1] `. /lib/chroot-setup.sh`
+	- ***Don't forget the space after the first dot***. It sources the file. It does not execute it.
+- `chroot_setup`
 - Change to `MODULES=loaded` in `/target/etc/initramfs-tools/conf.d/driver-policy` and `/target/etc/initramfs-tools/initramfs.conf`.
 - `chroot /target lsmod | cut -f 1 -d\  > /target/etc/initramfs-tools/modules`
 - Ensure `/target/etc/initramfs-tools/modules` first line is not "Module", if so delete it.
