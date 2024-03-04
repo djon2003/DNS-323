@@ -124,15 +124,14 @@ The RAID is active. (This is a paraphrase)
     - Give the names you want.
     - Select both disks.
 - Continue up to *install base system*.
-    - **STOP** on kernel choice.
+    - Choose `linux-image-orion5x`.
+    - **STOP** on next question.
 
 - ![SSH-b][1] `nano /target/usr/sbin/mkinitramfs`:
 	- Search for `MODULES=most`.
 	- Comment all the "case" lines ***except*** `auto_add_modules`.
 	
-- ![SSH-i][2] In *install base system*.
-    - Choose `linux-image-orion5x`.
-- Continue up to *Configure package manager*.
+- ![SSH-i][2] Continue up to *Configure package manager*.
 	- I chose `No` to first two choices, **security updates** only.
 - Continue up to *Make the system bootable* and **WAIT**.
 
